@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
-import { asyncHandler } from "./asyncHandler";
+import { asyncHandler } from "./asyncHandler.js";
 import User from "../models/userModels.js";
 
 const authenticate = asyncHandler(async (req, res, next) => {
   const token = req.cookies.userToken;
   if (token) {
     try {
-      const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
       req.user = await User.findById(decoded.id).select("-password");
       next();
     } catch (err) {
@@ -21,9 +21,7 @@ const authenticate = asyncHandler(async (req, res, next) => {
 
 const autherizeAdmin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
-    res.status(200).json({
-      Message: "welcome admin",
-    });
+   
     next();
   } else {
     res.status(401).send("not autherized as admin");

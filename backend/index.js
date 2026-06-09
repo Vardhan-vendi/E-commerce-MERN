@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js';
 import { asyncErrorHandler } from './middlewares/asyncErrorHandler.js';
 import userRouter from './Routes/userRoutes.js'
+import cookieParser from 'cookie-parser';
 
 
 dotenv.config();
@@ -12,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
 
 
 

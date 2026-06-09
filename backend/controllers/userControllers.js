@@ -79,38 +79,100 @@ const userLogout = asyncHandler(async (req, res) => {
   });
 
   // best practice than above one
-//  res.clearCookie("userToken",{
-//    httpOnly: true,
-//     secure: process.env.NODE_ENV !== "development",
-//     sameSite: "strict",
-//  })
+  //  res.clearCookie("userToken",{
+  //    httpOnly: true,
+  //     secure: process.env.NODE_ENV !== "development",
+  //     sameSite: "strict",
+  //  })
 
   res.status(200).json({
     message: "user successfully logged out...",
   });
 });
 
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.status(200).json(users);
+});
 
-
-const getAllUsers = asyncHandler(async (req,res)=>{
-  const users = await User.find();
-  res.status(200).json(users)
-})
-
-const getCurrentUserProfile = asyncHandler(async (req,res)=>{
-  const user = await User.findById(req.user._id)
-  if(user){
-    res.status(200)
+const getCurrentUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.status(200);
     res.json({
-      _id : user._id,
-      username : user.username,
-      email : user.email
-    })
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+    });
+  } else {
+    res.status(401);
+    throw new Error("user not found");
   }
-  else{
-    res.status(401)
-    throw new Error('user not found')
-  }
-})
+});
 
-export { userRegister, userLogin, userLogout ,getAllUsers,getCurrentUserProfile };
+const updateCurrentUserProfile = asyncHandler(async (req, res) => {
+  console.log("req.body:", req.body);
+  console.log("req.user:", req.user);
+  const currentUser = await User.findById(req.user._id);
+  if (currentUser) {
+    currentUser.username = req.body.username || currentUser.username;
+    currentUser.email = req.body.email || currentUser.email;
+
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+      currentUser.password = hashedPassword;
+    }
+
+    const updatedUser = await currentUser.save();
+    console.log(updatedUser.email);
+    res.json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
+  } else {
+    res.status(404);
+    throw new Error("user not found");
+  }
+});
+
+const deleteUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    if (user.isAdmin) {
+      res.status(400);
+      throw new Error("can not delete admin");
+    }
+
+    await User.deleteOne({ _id: user._id });
+    res.json({ message: "user deleted" });
+  } else {
+    res.status(400);
+    throw new Error("no user found");
+  }
+});
+
+const getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select("-password");
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404);
+    throw new Error("user not exist");
+  }
+});
+
+export {
+  userRegister,
+  userLogin,
+  userLogout,
+  getAllUsers,
+  getCurrentUserProfile,
+  updateCurrentUserProfile,
+  deleteUserById,
+  getUserById,
+};
