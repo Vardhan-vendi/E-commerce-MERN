@@ -33,7 +33,7 @@ const Navigation = () => {
     setShowSideBar(false);
   };
 
-  const logout
+  // const logout
 
 
   return (
