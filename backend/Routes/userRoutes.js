@@ -10,6 +10,7 @@ import {
   updateCurrentUserProfile,
   deleteUserById,
   getUserById,
+  updateUserById,
 } from "../controllers/userControllers.js";
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.route("/").get(authenticate, autherizeAdmin, getAllUsers);
 router
   .route("/:id")
   .delete(authenticate, autherizeAdmin, deleteUserById)
-  .get(authenticate, autherizeAdmin, getUserById);
+  .get(authenticate, autherizeAdmin, getUserById)
+  .put(authenticate, autherizeAdmin, updateUserById);
 
 export default router;
