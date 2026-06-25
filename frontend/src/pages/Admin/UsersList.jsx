@@ -11,22 +11,23 @@ import { toast } from "react-toastify";
 
 const UsersList = () => {
   const { userInfo } = useSelector((state) => state.user);
-  console.log(userInfo)
   const { data: users = [], isLoading, error } = useGetUsersQuery();
   const [updateSelectedUser] = useUpdateUserByIdMutation();
   const [deleteSelectedUser] = useDeleteUserMutation();
 
-  const [ selectedUser, setSelectedUser ] = useState(null);
-  const [showEditcard, setShowEditCard ] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showEditCard, setShowEditCard] = useState(false);
+
   const editHandler = (id) => {
-    const user = users.find((e) => id === e._id);
+    const user = users.find((u) => u._id === id);
     setSelectedUser(user);
     setShowEditCard(true);
   };
-  const saveHandler = async (updateData) => {
+
+  const saveHandler = async (updated) => {
     try {
-      await updateSelectedUser(updateData).unwrap();
-      toast.success("user Updated...");
+      await updateSelectedUser(updated).unwrap();
+      toast.success("User updated");
       setShowEditCard(false);
     } catch (err) {
       toast.error(err?.data?.message || err.message);
@@ -36,7 +37,7 @@ const UsersList = () => {
   const deleteHandler = async (id) => {
     try {
       await deleteSelectedUser(id).unwrap();
-      toast.success("user deleted...");
+      toast.success("User deleted");
     } catch (err) {
       toast.error(err?.data?.message || err.message);
     }
@@ -50,7 +51,7 @@ const UsersList = () => {
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className="glass-card w-full h-[20rem] p-6 rounded-2xl animate-pulse flex flex-col items-center"
+            className="glass-card w-full h-80 p-6 rounded-2xl animate-pulse flex flex-col items-center"
           >
             <div className="w-20 h-20 rounded-full bg-slate-800/80 mb-4" />
             <div className="w-36 h-4 bg-slate-800/80 rounded mb-2" />
@@ -65,9 +66,7 @@ const UsersList = () => {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center text-red-400">
         <h2 className="text-2xl font-bold mb-2">Error Loading Users</h2>
-        <p className="text-sm text-slate-500">
-          Please try refreshing the page later.
-        </p>
+        <p className="text-sm text-slate-500">Please try refreshing later.</p>
       </div>
     );
   }
@@ -75,15 +74,26 @@ const UsersList = () => {
   return (
     <div className="p-8">
       {/* 3 cards per row on large screens, left‑to‑right flow */}
+      <div className="flex flex-col items-center mb-4">
+        <h2 className="text-3xl font-bold font-[Poppins] text-purple-400 tracking-wider">
+          USER LIST
+        </h2>
+        <div className="w-24 h-[2px] mt-2 bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,1)]"></div>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {users
-        .filter((user) => user.isAdmin == false)
-        .map((user) => (
-          <Card key={user._id} user={user} onEdit={editHandler}onDelete={deleteHandler} />
-        ))}
+          .filter((u) => !u.isAdmin)
+          .map((user) => (
+            <Card
+              key={user._id}
+              user={user}
+              onEdit={editHandler}
+              onDelete={deleteHandler}
+            />
+          ))}
       </div>
 
-      {showEditcard && selectedUser && (
+      {showEditCard && selectedUser && (
         <EditableCards
           user={selectedUser}
           onClose={() => setShowEditCard(false)}

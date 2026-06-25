@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js';
 import { asyncErrorHandler } from './middlewares/asyncErrorHandler.js';
 import userRouter from './Routes/userRoutes.js'
+import categoryRouter from './Routes/categoryRoutes.js'
 import cookieParser from 'cookie-parser';
 
 
@@ -20,7 +21,9 @@ app.use(cookieParser())
 
 connectDB()
 
-app.use('/api/user',userRouter)
+app.use('/api/user',userRouter);
+
+app.use('/api/category',categoryRouter)
 
 
 

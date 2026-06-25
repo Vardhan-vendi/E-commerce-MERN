@@ -3,90 +3,95 @@ import React, { useState } from "react";
 const EditableCards = ({ user, onClose, onSave, onDelete }) => {
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
-  const [focusedInput, setFocusedInput] = useState(null);
+  const [focused, setFocused] = useState<string | null>(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!username.trim() || !email.trim()) return;
-    onSave({id :user._id, username, email });
+    onSave({ id: user._id, username, email });
     onClose();
   };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fadeIn">
-      {/* Modal Card Backdrop Dismissal */}
+      {/* Modal backdrop dismiss */}
       <div className="absolute inset-0" onClick={onClose} />
 
-      {/* Modal Box */}
-      <div className="relative w-full max-w-md z-10 p-[1px] rounded-2xl overflow-hidden bg-gradient-to-b from-white/10 to-transparent shadow-2xl animate-scaleUp">
+      {/* Modal box */}
+      <div className="relative w-full max-w-md z-10 p-[1px] rounded-2xl overflow-hidden bg-gradient-to-b from-purple-900/60 to-purple-800/30 shadow-2xl animate-scaleUp">
         <div className="w-full h-full glass-card p-8 rounded-[15px] flex flex-col">
-          
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-white tracking-tight">
+            <h3 className="text-xl font-bold text-purple-200 tracking-tight">
               Edit User Details
             </h3>
             <button
               onClick={onClose}
               className="text-slate-400 hover:text-white transition-colors duration-200 focus:outline-none p-1"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Username Input Field */}
+            {/* Username */}
             <div className="relative flex flex-col group">
               <input
-                type="text"
                 id="username-edit"
-                className="w-full bg-slate-950/40 border-b border-slate-700/60 py-3.5 px-3 text-white outline-none focus:border-violet-500 transition-all duration-300 text-sm rounded-t-lg"
-                onChange={(e) => setUsername(e.target.value)}
+                type="text"
+                className="w-full bg-purple-900/40 border-b border-purple-700/60 py-3.5 px-3 text-white outline-none focus:border-purple-400 transition-all duration-300 text-sm rounded-t-lg"
                 value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 placeholder=" "
-                onFocus={() => setFocusedInput("username")}
-                onBlur={() => setFocusedInput(null)}
+                onFocus={() => setFocused("username")}
+                onBlur={() => setFocused(null)}
               />
               <label
                 htmlFor="username-edit"
                 className={`absolute left-3 transition-all duration-300 pointer-events-none text-slate-400 text-sm ${
-                  focusedInput === "username" || username.length > 0
-                    ? "-translate-y-7 scale-90 text-violet-400 font-medium"
-                    : "translate-y-3.5 text-slate-400"
+                  focused === "username" || username
+                    ? "-translate-y-7 scale-90 text-purple-400 font-medium"
+                    : "translate-y-3.5"
                 }`}
               >
                 Username
               </label>
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-violet-500 to-indigo-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-center" />
+              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-purple-500 to-indigo-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-center" />
             </div>
 
-            {/* Email Input Field */}
+            {/* Email */}
             <div className="relative flex flex-col group">
               <input
-                type="email"
                 id="email-edit"
-                className="w-full bg-slate-950/40 border-b border-slate-700/60 py-3.5 px-3 text-white outline-none focus:border-violet-500 transition-all duration-300 text-sm rounded-t-lg"
-                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                className="w-full bg-purple-900/40 border-b border-purple-700/60 py-3.5 px-3 text-white outline-none focus:border-purple-400 transition-all duration-300 text-sm rounded-t-lg"
                 value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder=" "
-                onFocus={() => setFocusedInput("email")}
-                onBlur={() => setFocusedInput(null)}
+                onFocus={() => setFocused("email")}
+                onBlur={() => setFocused(null)}
               />
               <label
                 htmlFor="email-edit"
                 className={`absolute left-3 transition-all duration-300 pointer-events-none text-slate-400 text-sm ${
-                  focusedInput === "email" || email.length > 0
-                    ? "-translate-y-7 scale-90 text-violet-400 font-medium"
-                    : "translate-y-3.5 text-slate-400"
+                  focused === "email" || email
+                    ? "-translate-y-7 scale-90 text-purple-400 font-medium"
+                    : "translate-y-3.5"
                 }`}
               >
                 Email Address
               </label>
-              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-violet-500 to-indigo-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-center" />
+              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-purple-500 to-indigo-500 scale-x-0 group-focus-within:scale-x-100 transition-transform duration-300 origin-center" />
             </div>
 
-            {/* Actions Buttons */}
+            {/* Action buttons */}
             <div className="flex items-center gap-3 pt-4 border-t border-slate-900/80">
               {onDelete && (
                 <button
@@ -110,15 +115,13 @@ const EditableCards = ({ user, onClose, onSave, onDelete }) => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-violet-600 to-indigo-600 hover:shadow-lg hover:shadow-indigo-500/20 text-white rounded-xl active:scale-[0.98] transition-all duration-200"
+                  className="px-5 py-2.5 text-sm font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:shadow-lg hover:shadow-indigo-500/20 text-white rounded-xl active:scale-[0.98] transition-all duration-200"
                 >
                   Save Changes
                 </button>
               </div>
             </div>
-
           </form>
-
         </div>
       </div>
     </div>
