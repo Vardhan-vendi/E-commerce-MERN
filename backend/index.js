@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import { asyncErrorHandler } from './middlewares/asyncErrorHandler.js';
 import userRouter from './Routes/userRoutes.js'
 import categoryRouter from './Routes/categoryRoutes.js'
+import productRouter from './Routes/productRoutes.js'
 import cookieParser from 'cookie-parser';
 
 
@@ -24,6 +25,7 @@ connectDB()
 app.use('/api/user',userRouter);
 
 app.use('/api/category',categoryRouter)
+app.use('/api/products',productRouter)
 
 
 
