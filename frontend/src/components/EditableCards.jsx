@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const EditableCards = ({ user, onClose, onSave, onDelete }) => {
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
-  const [focused, setFocused] = useState<string | null>(null);
+  const [focused, setFocused] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();

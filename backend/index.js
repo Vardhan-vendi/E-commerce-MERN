@@ -6,8 +6,9 @@ import { asyncErrorHandler } from './middlewares/asyncErrorHandler.js';
 import userRouter from './Routes/userRoutes.js'
 import categoryRouter from './Routes/categoryRoutes.js'
 import productRouter from './Routes/productRoutes.js'
+import uploadRouter from './Routes/uploadRouter.js'
 import cookieParser from 'cookie-parser';
-
+import path from 'path'
 
 dotenv.config();
 const app = express();
@@ -26,8 +27,10 @@ app.use('/api/user',userRouter);
 
 app.use('/api/category',categoryRouter)
 app.use('/api/products',productRouter)
+app.use('/api/upload',uploadRouter)
 
-
+const __dirname = path.resolve();
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
 
 // globel error handler middle ware
 app.use(asyncErrorHandler)

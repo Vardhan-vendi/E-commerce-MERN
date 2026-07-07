@@ -7,7 +7,10 @@ import {
   updateProduct,
   deleteProduct,
   getAllProducts,
-  getProductById
+  getProductById,
+  addProductReview,
+  fetchTopProducts,
+  fetchNewProducts
 } from "../controllers/productControllers.js";
 
 const router = express.Router();
@@ -16,10 +19,20 @@ router
   .route("/")
   .get(getAllProducts)
   .post(authenticate, autherizeAdmin, formidable(), addProduct)
+
+router.route('/allproducts').get(getAllProducts)
+router.route("/topProducts").get(fetchTopProducts) 
+router.route("/newProducts").get(fetchNewProducts)
 router
   .route("/:id")
   .get(getProductById)
   .put(authenticate, autherizeAdmin, formidable(), updateProduct)
   .delete(authenticate, autherizeAdmin, deleteProduct);
+
+
+router.route('/:id/reviews').post(authenticate,autherizeAdmin,addProductReview)
+
+
+
 
 export default router;
