@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { 
@@ -7,7 +8,10 @@ import {
   FiCpu, 
   FiShield, 
   FiDatabase, 
-  FiCheckCircle 
+  FiCheckCircle, 
+  FiCreditCard, 
+  FiPrinter,
+  FiActivity
 } from "react-icons/fi";
 
 const Intro = () => {
@@ -19,50 +23,57 @@ const Intro = () => {
       color: "from-violet-500/20 to-purple-500/5 border-violet-500/20",
       glow: "group-hover:shadow-[0_0_25px_-5px_rgba(139,92,246,0.4)]",
       title: "Mobile Responsive Layout",
-      description: "Optimized viewport boundaries, adaptive card scaling, and dynamic stacking carousel for seamless browsing across all screens."
+      description: "Optimized viewport boundaries, adaptive card scaling, and dynamic scrollbars for seamless browsing across all screen sizes."
     },
     {
       icon: <FiSliders className="text-pink-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
       color: "from-pink-500/20 to-rose-500/5 border-pink-500/20",
       glow: "group-hover:shadow-[0_0_25px_-5px_rgba(236,72,153,0.4)]",
       title: "Collapsible Shop Filters",
-      description: "Category, Brand, and Price filters automatically collapse into mobile dropdown accordions, preserving screen space."
+      description: "Category, Brand, and Price filters automatically collapse into mobile dropdown panels, preserving precious screen space."
+    },
+    {
+      icon: <FiCreditCard className="text-amber-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
+      color: "from-amber-500/20 to-yellow-500/5 border-amber-500/20",
+      glow: "group-hover:shadow-[0_0_25px_-5px_rgba(245,158,11,0.4)]",
+      title: "Paytm Payment Gateway",
+      description: "Simulated sandbox payment environment featuring automatic transaction status checking and instant invoice generation."
+    },
+    {
+      icon: <FiPrinter className="text-cyan-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
+      color: "from-cyan-500/20 to-blue-500/5 border-cyan-500/20",
+      glow: "group-hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.4)]",
+      title: "Watermarked Print Invoices",
+      description: "Print-optimized invoices that hide UI elements when printing, featuring a custom VARDHAN background watermark."
+    },
+    {
+      icon: <FiCheckCircle className="text-emerald-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
+      color: "from-emerald-500/20 to-teal-500/5 border-emerald-500/20",
+      glow: "group-hover:shadow-[0_0_25px_-5px_rgba(16,185,129,0.4)]",
+      title: "Admin Dashboard Control",
+      description: "Comprehensive product CRUD, category management, user profiles control, and order delivery status dispatching."
     },
     {
       icon: <FiCpu className="text-orange-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
       color: "from-orange-500/20 to-amber-500/5 border-orange-500/20",
       glow: "group-hover:shadow-[0_0_25px_-5px_rgba(249,115,22,0.4)]",
       title: "Decoupled Architecture",
-      description: "Separated package.json structures for backend and frontend folders to ensure a modular, clean repository codebase."
-    },
-    {
-      icon: <FiShield className="text-cyan-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
-      color: "from-cyan-500/20 to-blue-500/5 border-cyan-500/20",
-      glow: "group-hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.4)]",
-      title: "Role-Based Security",
-      description: "Protected routing and secure JWT cookie-based user authentication separating customer and administrative features."
-    },
-    {
-      icon: <FiDatabase className="text-emerald-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
-      color: "from-emerald-500/20 to-teal-500/5 border-emerald-500/20",
-      glow: "group-hover:shadow-[0_0_25px_-5px_rgba(16,185,129,0.4)]",
-      title: "High Performance ODM",
-      description: "Custom Mongoose String ID mappings designed to match and fetch from cloud collections seamlessly."
-    },
-    {
-      icon: <FiCheckCircle className="text-amber-400 w-6 h-6 group-hover:scale-110 transition-transform duration-300" />,
-      color: "from-amber-500/20 to-yellow-500/5 border-amber-500/20",
-      glow: "group-hover:shadow-[0_0_25px_-5px_rgba(245,158,11,0.4)]",
-      title: "Full Admin Dashboard",
-      description: "Comprehensive product CRUD, order history status tracking, user lists, and category controls."
+      description: "Separated package structures for backend routes and frontend viewports to ensure modular, clean directory structures."
     }
   ];
 
+  const stats = [
+    { value: "< 150ms", label: "Query Latency", desc: "Optimized indexing" },
+    { value: "100%", label: "Mobile Optimized", desc: "Fluid layouts" },
+    { value: "Zero", label: "Transaction Fees", desc: "Mock integration" },
+    { value: "JWT", label: "Secure Auth", desc: "HttpOnly Cookies" }
+  ];
+
   const techStack = [
-    { label: "Frontend", value: "React 19 & Redux Toolkit", accent: "border-violet-500/30 text-violet-300" },
-    { label: "Styling System", value: "Tailwind CSS & Glassmorphism", accent: "border-pink-500/30 text-pink-300" },
-    { label: "Backend Engine", value: "Node.js & Express 5", accent: "border-orange-500/30 text-orange-300" },
-    { label: "Cloud Database", value: "MongoDB Atlas Cloud", accent: "border-cyan-500/30 text-cyan-300" }
+    { label: "Frontend State", value: "React 19 & Redux Toolkit", accent: "border-violet-500/30 text-violet-300", status: "Live" },
+    { label: "Styling System", value: "Tailwind CSS & Glassmorphism", accent: "border-pink-500/30 text-pink-300", status: "Active" },
+    { label: "Backend Core", value: "Node.js & Express 5", accent: "border-orange-500/30 text-orange-300", status: "Connected" },
+    { label: "Cloud Database", value: "MongoDB Atlas Cloud", accent: "border-cyan-500/30 text-cyan-300", status: "Online" }
   ];
 
   return (
@@ -75,13 +86,21 @@ const Intro = () => {
       <div className="absolute bottom-[-10%] right-[-20%] w-[600px] h-[600px] rounded-full bg-pink-600/10 blur-[150px] pointer-events-none animate-pulse" style={{ animationDuration: '10s' }} />
       <div className="absolute top-[40%] left-[30%] w-[300px] h-[300px] rounded-full bg-indigo-600/5 blur-[100px] pointer-events-none" />
 
-      <div className="max-w-5xl w-full space-y-16 relative z-10">
+      <div className="max-w-5xl w-full space-y-20 relative z-10">
         
         {/* Header Hero Section */}
         <div className="text-center space-y-6 max-w-3xl mx-auto">
+          {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-violet-300 shadow-inner backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-ping" />
             <span>MERN Stack Portfolio Showcase</span>
+          </div>
+
+          {/* Glowing Brand Monogram */}
+          <div className="flex justify-center pt-2">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center border border-white/20 shadow-xl shadow-purple-500/20 select-none">
+              <span className="text-white font-black text-3xl tracking-tighter">MV</span>
+            </div>
           </div>
 
           <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-300 to-pink-500 drop-shadow-sm leading-none pb-2">
@@ -89,16 +108,16 @@ const Intro = () => {
           </h1>
 
           <p className="text-slate-400 text-sm sm:text-base lg:text-lg leading-relaxed font-medium">
-            Welcome to a premium, full-featured e-commerce platform designed with high-fidelity glassmorphism, responsive interface workflows, and clean decoupled structures.
+            Welcome to a premium e-commerce platform built using high-fidelity glassmorphism, responsive interface viewports, and clean decoupled structures.
           </p>
 
+          {/* CTA Buttons */}
           <div className="pt-6 flex justify-center">
             {userInfo ? (
               <Link
-                to="/store"
+                to="/shopping" // Corrected redirect target path
                 className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white font-extrabold px-10 py-4 rounded-2xl shadow-xl shadow-violet-500/20 transition-all duration-300 hover:scale-105 active:scale-95 text-base overflow-hidden"
               >
-                {/* Shining sweep effect on hover */}
                 <div className="absolute inset-0 w-1/2 h-full bg-white/10 transform -skew-x-12 -translate-x-full group-hover:animate-shine pointer-events-none" />
                 ENTER STORE
                 <FiArrowRight className="group-hover:translate-x-1.5 transition-transform duration-300 w-5 h-5" />
@@ -108,7 +127,6 @@ const Intro = () => {
                 to="/login"
                 className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-violet-600 via-indigo-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white font-extrabold px-10 py-4 rounded-2xl shadow-xl shadow-violet-500/20 transition-all duration-300 hover:scale-105 active:scale-95 text-base overflow-hidden"
               >
-                {/* Shining sweep effect on hover */}
                 <div className="absolute inset-0 w-1/2 h-full bg-white/10 transform -skew-x-12 -translate-x-full group-hover:animate-shine pointer-events-none" />
                 GET STARTED
                 <FiArrowRight className="group-hover:translate-x-1.5 transition-transform duration-300 w-5 h-5" />
@@ -117,10 +135,26 @@ const Intro = () => {
           </div>
         </div>
 
-        {/* Project Details Grid (Redesigned with Premium Cards) */}
+        {/* ── Key Performance Stats Grid ── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          {stats.map((stat, idx) => (
+            <div 
+              key={idx}
+              className="bg-white/5 border border-white/10 p-5 rounded-2xl text-center space-y-1 shadow-lg backdrop-blur-xl"
+            >
+              <h4 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                {stat.value}
+              </h4>
+              <p className="text-xs font-bold text-white uppercase tracking-wider">{stat.label}</p>
+              <p className="text-[10px] text-slate-500">{stat.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Project Architecture Grid */}
         <div className="space-y-6">
-          <h2 className="text-lg sm:text-xl font-bold text-slate-300 tracking-wider uppercase text-center sm:text-left">
-            Project Architecture
+          <h2 className="text-sm font-bold text-slate-400 tracking-widest uppercase text-center sm:text-left flex items-center gap-2">
+            <FiActivity className="text-purple-400" /> Technology Infrastructure
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {techStack.map((tech, idx) => (
@@ -129,10 +163,15 @@ const Intro = () => {
                 className="bg-slate-900/40 border border-white/5 rounded-2xl p-5 backdrop-blur-xl relative overflow-hidden group hover:border-white/10 hover:bg-slate-900/60 transition-all duration-300"
               >
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
-                  {tech.label}
-                </span>
-                <p className={`text-sm sm:text-base font-bold mt-1.5 ${tech.accent}`}>
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500 uppercase tracking-wider font-semibold">
+                    {tech.label}
+                  </span>
+                  <span className="text-[9px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                    {tech.status}
+                  </span>
+                </div>
+                <p className={`text-sm sm:text-base font-bold mt-2.5 ${tech.accent}`}>
                   {tech.value}
                 </p>
               </div>
@@ -140,14 +179,14 @@ const Intro = () => {
           </div>
         </div>
 
-        {/* Key Features Section (Redesigned with Hover Shadows & Border Effects) */}
+        {/* Key Features Section */}
         <div className="space-y-8">
           <div className="text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
               Core Enhancements
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
-              Optimized layout layers and modern development flows built for performance.
+              Optimized layouts and custom backend flows built for premium user performance.
             </p>
           </div>
           
@@ -160,11 +199,11 @@ const Intro = () => {
                 <div className={`p-3 bg-gradient-to-br ${feature.color} border rounded-xl w-fit transition-all duration-300`}>
                   {feature.icon}
                 </div>
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 flex-grow">
                   <h3 className="text-base sm:text-lg font-bold text-slate-100 group-hover:text-white transition-colors">
                     {feature.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-400 group-hover:text-slate-300 transition-colors leading-relaxed flex-grow">
+                  <p className="text-xs sm:text-sm text-slate-400 group-hover:text-slate-300 transition-colors leading-relaxed">
                     {feature.description}
                   </p>
                 </div>
