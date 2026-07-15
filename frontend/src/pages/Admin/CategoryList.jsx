@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import CategoryForm from "../../components/CategoryForm.jsx";
 
@@ -17,7 +17,7 @@ const CategoryList = () => {
   const [editName, setEditName] = useState("");
 
   const {
-    data: categories,
+    data: responseData,
     isLoading,
     error,
     refetch,
@@ -27,23 +27,30 @@ const CategoryList = () => {
   const [updateCategory] = useUpdateCategoryMutation();
   const [deleteCategory] = useDeleteCategoryMutation();
 
+  // Safely extract the categories array from the backend response structure
+  const categories = Array.isArray(responseData)
+    ? responseData
+    : responseData?.categories && Array.isArray(responseData.categories)
+    ? responseData.categories
+    : responseData?.data && Array.isArray(responseData.data)
+    ? responseData.data
+    : [];
+
   const handleCreateCategory = async (e) => {
     e.preventDefault();
 
     if (!name.trim()) {
-      toast.error("Category is required");
+      toast.error("Category name is required");
       return;
     }
 
     try {
       await createCategory({ name }).unwrap();
-
       toast.success("Category created successfully");
       setName("");
-
       await refetch();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       toast.error("Category not created");
     }
   };
@@ -61,126 +68,130 @@ const CategoryList = () => {
       }).unwrap();
 
       toast.success("Category updated successfully");
-
       setEditingId(null);
       setEditName("");
-
       await refetch();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       toast.error("Failed to update category");
     }
   };
 
   const handleDeleteCategory = async (categoryId) => {
-    try {
-      await deleteCategory({
-        category_id: categoryId,
-      }).unwrap();
+    if (window.confirm("Are you sure you want to delete this category?")) {
+      try {
+        await deleteCategory({
+          category_id: categoryId,
+        }).unwrap();
 
-      toast.success("Category deleted successfully");
-
-      await refetch();
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete category");
+        toast.success("Category deleted successfully");
+        await refetch();
+      } catch (err) {
+        console.log(err);
+        toast.error("Failed to delete category");
+      }
     }
   };
 
   return (
-    <div className="p-4">
-      {/* Heading */}
-      <div className="flex flex-col items-center mb-4">
-        <h2 className="text-3xl font-bold font-[Poppins] text-purple-400 tracking-wider">
-          CATEGORY LIST
-        </h2>
-
-        <div className="w-24 h-[2px] mt-2 bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,1)]" />
-      </div>
-
-      {/* Create Form */}
-      <div className="flex justify-center">
-        <CategoryForm
-          name={name}
-          setName={setName}
-          handleSubmit={handleCreateCategory}
-        />
-      </div>
-
-      <hr className="my-6" />
-
-      {/* Categories */}
-      {isLoading ? (
-        <p className="text-center">Loading...</p>
-      ) : error ? (
-        <p className="text-center text-red-500">
-          Error loading categories
-        </p>
-      ) : (
-        <div className="space-y-3">
-          {categories?.map((category) => (
-            <div
-              key={category._id}
-              className="flex items-center justify-between border border-purple-500 rounded-lg p-3"
-            >
-              {editingId === category._id ? (
-                <div className="flex items-center gap-2 w-full">
-                  <input
-                    type="text"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    className="border px-2 py-1 rounded w-full text-white"
-                  />
-
-                  <button
-                    onClick={() =>
-                      handleUpdateCategory(category._id)
-                    }
-                    className="bg-green-500 px-3 py-1 rounded text-white"
-                  >
-                    Save
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setEditingId(null);
-                      setEditName("");
-                    }}
-                    className="bg-gray-500 px-3 py-1 rounded text-white"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <>
-                  <p className="font-medium">{category.name}</p>
-
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingId(category._id);
-                        setEditName(category.name);
-                      }}
-                      className="bg-blue-500 px-3 py-1 rounded text-white"
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      onClick={() =>
-                        handleDeleteCategory(category._id)
-                      }
-                      className="bg-red-500 px-3 py-1 rounded text-white"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          ))}
+    <div className="w-full h-full flex flex-col p-6 sm:p-8">
+      {/* Premium Glass Card Container */}
+      <div className="relative w-full flex-1 bg-white/5 backdrop-blur-xl border border-white/20 p-6 sm:p-8 rounded-3xl shadow-2xl flex flex-col justify-between overflow-hidden">
+        
+        {/* Header */}
+        <div className="mb-6">
+          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 tracking-tight text-center sm:text-left">
+            Category Management
+          </h2>
         </div>
-      )}
+
+        {/* Create Form Container */}
+        <div className="bg-purple-950/10 border  border-purple-500/20 p-5 rounded-2xl mb-6 shadow-inner flex justify-center">
+          <CategoryForm
+            name={name}
+            setName={setName}
+            handleSubmit={handleCreateCategory}
+          />
+        </div>
+
+        {/* Categories List (Scrollable Area) */}
+        <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+          {isLoading ? (
+            <div className="flex items-center justify-center py-10">
+              <div className="w-8 h-8 border-3 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : error ? (
+            <p className="text-center text-red-400 text-sm py-10">
+              Error loading categories. Please refresh.
+            </p>
+          ) : categories.length === 0 ? (
+            <p className="text-center text-slate-400 text-sm py-10">
+              No categories found.
+            </p>
+          ) : (
+            categories.map((category) => (
+              <div
+                key={category._id}
+                className="flex items-center justify-between bg-purple-950/10 border border-purple-500/20 hover:border-purple-400/40 p-4 rounded-xl shadow-md transition-all duration-200"
+              >
+                {editingId === category._id ? (
+                  /* Edit Mode View */
+                  <div className="flex items-center gap-3 w-full">
+                    <input
+                      type="text"
+                      value={editName}
+                      onChange={(e) => setEditName(e.target.value)}
+                      className="flex-1 bg-purple-950/30 border border-purple-500/50 rounded-lg px-3 py-2 text-white text-sm outline-none focus:border-purple-400 transition-colors"
+                      placeholder="Category name"
+                      autoFocus
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleUpdateCategory(category._id)}
+                        className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-lg active:scale-95 transition-all"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setEditingId(null);
+                          setEditName("");
+                        }}
+                        className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs px-4 py-2.5 rounded-lg active:scale-95 transition-all"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Normal View */
+                  <>
+                    <p className="font-medium text-sm text-slate-200 pl-1">{category.name}</p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setEditingId(category._id);
+                          setEditName(category.name);
+                        }}
+                        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs px-4 py-2.5 rounded-lg shadow-md active:scale-95 transition-all"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteCategory(category._id)}
+                        className="bg-gray-950/20 text-shadow-orange-500 border border-red-500/40 hover:bg-red-900/40 hover:border-red-400 text-red-400 font-semibold text-xs px-4 py-2.5 rounded-lg active:scale-95 transition-all"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+
+      </div>
     </div>
   );
 };

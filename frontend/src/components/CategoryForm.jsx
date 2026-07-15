@@ -11,12 +11,12 @@ const CategoryForm = ({ name, setName, handleSubmit }) => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter Category"
-          className="text-white outline-none border border-pink-300 rounded rounded-10 text-1xl"
+          className="text-white outline-none border border-orange-500 rounded rounded-10 text-1xl"
         />
       </div>
       <button
         type="submit"
-        className="border border-pink-600 bg-pink-100 hover:bg-pink-300 focus:bg-pink-500 px-3 rounded rounded-5 text-2xl outline-none"
+        className="border bg-gray-950/20 text-shadow-orange-500  border-red-500/40 hover:bg-red-900/40 hover:border-red-400 text-red-400 font-semibold text-lg px-3 rounded rounded-5 text-2xl outline-none"
       >
         submit
       </button>

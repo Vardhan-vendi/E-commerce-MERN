@@ -1,5 +1,6 @@
 import { asyncHandler } from "../middlewares/asyncHandler.js";
 import ProductModel from "../models/ProductsModel.js";
+import CategoryModel from "../models/CategoryModel.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   try {
@@ -99,7 +100,9 @@ const getAllProducts = asyncHandler(async (req, res) => {
     ? { name: { $regex: req.query.keyword, $options: "i" } }
     : {};
   const count = await ProductModel.countDocuments({ ...keyword });
-  const products = await ProductModel.find({ ...keyword }).limit(pageSize);
+  const products = await ProductModel.find({ ...keyword })
+    .populate("category")
+    // .limit(pageSize);
   res.status(200).json({
     products,
     page: 1,
@@ -109,7 +112,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
 });
 
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await ProductModel.findById(req.params.id);
+ const product = await ProductModel.findById(req.params.id).populate("category");
 
   if (!product) {
     res.status(404);
@@ -168,17 +171,15 @@ const fetchTopProducts = asyncHandler(async (req, res) => {
   }
 });
 
-const fetchNewProducts = asyncHandler(async(req,res)=>{
-    try {
-      const products = await ProductModel.find({}).sort({_id: -1}).limit(5)
-       res.json(products);
-    } catch (error) {
-       console.error(error);
+const fetchNewProducts = asyncHandler(async (req, res) => {
+  try {
+    const products = await ProductModel.find({}).sort({ _id: -1 }).limit(5);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
     res.status(400).json(error.message);
-    }
-}
-)
-
+  }
+});
 
 export {
   addProduct,
@@ -188,5 +189,5 @@ export {
   getProductById,
   addProductReview,
   fetchTopProducts,
-  fetchNewProducts
+  fetchNewProducts,
 };

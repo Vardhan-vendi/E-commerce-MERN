@@ -29,6 +29,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
                 url :`${PRODUCT_URI}/allproducts`,
                 method :'GET'
             }),
+            providesTags: ["Product"],
 
         }),
         getProductDetails : builder.query({
@@ -52,7 +53,8 @@ export const productApiSlice = apiSlice.injectEndpoints({
                 url : `${PRODUCT_URI}/${productId}`,
                 method : 'PUT',
                 body : formData,
-            })
+            }),
+             invalidatesTags: ["Product"],
         }) , 
 
         deleteProduct : builder.mutation({
@@ -61,7 +63,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
                 method: 'DELETE',
         
             }),
-            providesTags : ['Product']
+           invalidatesTags: ["Product"],
         }),
 
 
