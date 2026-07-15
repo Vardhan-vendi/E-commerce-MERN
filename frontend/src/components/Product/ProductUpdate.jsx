@@ -5,8 +5,8 @@ import {
   useDeleteProductMutation,
   useGetProductDetailsQuery, // Switched from getProductById to avoid URL slash bug
   useUploadProductImageMutation,
-} from "../../redux/api/productApiSlice.js";
-import { useGetAllCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
+} from "../../redux/api/ProductApiSlice.js";
+import { useGetAllCategoriesQuery } from "../../redux/api/CategoryApiSlice.js";
 import { toast } from "react-toastify";
 
 const ProductUpdate = () => {

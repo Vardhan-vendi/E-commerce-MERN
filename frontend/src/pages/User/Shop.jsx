@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   useGetAllProductsQuery,
   useGetFilteredProductsQuery, // Added backend filter query
-} from "../../redux/api/productApiSlice.js";
-import { useGetAllCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
+} from "../../redux/api/ProductApiSlice.js";
+import { useGetAllCategoriesQuery } from "../../redux/api/CategoryApiSlice.js";
 import {
   setChecked,
   setRadio,

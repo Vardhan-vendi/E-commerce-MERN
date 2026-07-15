@@ -1,5 +1,5 @@
 // import { useDispatch } from "react-redux";
-// import { useLoginMutation } from "../../redux/api/usersApiSlice.js";
+// import { useLoginMutation } from "../../redux/api/UsersApiSlice.js";
 // import { setCredentials } from "../../redux/features/User/userSlice.js";
 // import { useState } from "react";
 // import { toast } from "react-toastify";
@@ -67,7 +67,7 @@
 
 
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../../redux/api/usersApiSlice.js";
+import { useLoginMutation } from "../../redux/api/UsersApiSlice.js";
 import { setCredentials } from "../../redux/features/User/userSlice.js";
 import { useState } from "react";
 import { toast } from "react-toastify";

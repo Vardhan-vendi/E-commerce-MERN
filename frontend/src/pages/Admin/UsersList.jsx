@@ -5,7 +5,7 @@ import {
   useGetUsersQuery,
   useDeleteUserMutation,
   useUpdateUserByIdMutation,
-} from "../../redux/api/usersApiSlice.js";
+} from "../../redux/api/UsersApiSlice.js";
 import EditableCards from "../../components/EditableCards.jsx";
 import { toast } from "react-toastify";
 

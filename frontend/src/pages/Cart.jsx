@@ -9,7 +9,7 @@ import {
   FaClock,
 } from "react-icons/fa";
 import { addTocart, removeFromCart } from "../redux/features/cart/cartSlice.js";
-import { useGetMyOrdersQuery } from "../redux/api/orderApiSlice.js"; // Injected order history hook
+import { useGetMyOrdersQuery } from "../redux/api/OrderApiSlice.js"; // Injected order history hook
 
 const Cart = () => {
   const navigate = useNavigate();

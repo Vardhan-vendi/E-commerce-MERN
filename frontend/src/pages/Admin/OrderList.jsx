@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import {
   useGetOrdersQuery,
   useDeliverOrderMutation,
-} from "../../redux/api/orderApiSlice.js";
+} from "../../redux/api/OrderApiSlice.js";
 import { FaCheckCircle, FaTimesCircle, FaTruck, FaReceipt } from "react-icons/fa";
 
 const OrderList = () => {

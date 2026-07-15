@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/features/User/userSlice.js";
-import { useLogoutMutation } from "../../redux/api/usersApiSlice.js";
+import { useLogoutMutation } from "../../redux/api/UsersApiSlice.js";
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.user);

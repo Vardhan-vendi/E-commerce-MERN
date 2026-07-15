@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useProfileMutation } from "../../redux/api/usersApiSlice.js";
+import { useProfileMutation } from "../../redux/api/UsersApiSlice.js";
 import { setCredentials } from "../../redux/features/User/userSlice.js";
 import { toast } from "react-toastify";
 

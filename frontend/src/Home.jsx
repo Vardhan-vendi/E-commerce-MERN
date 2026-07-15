@@ -3,7 +3,7 @@ import {
   useGetTopProductsQuery,
   useGetNewProductsQuery,
   useGetAllProductsQuery,
-} from "./redux/api/productApiSlice.js";
+} from "./redux/api/ProductApiSlice.js";
 import ProductCarousel from "./components/Product/ProductCarousel.jsx"; 
 import ProductCard from "./components/Product/ProductCard.jsx";
 

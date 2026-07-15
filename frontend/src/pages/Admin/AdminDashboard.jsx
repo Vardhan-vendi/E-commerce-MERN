@@ -1,8 +1,8 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { useGetOrdersQuery } from "../../redux/api/orderApiSlice.js";
-import { useGetAllProductsQuery } from "../../redux/api/productApiSlice.js";
-import { useGetUsersQuery } from "../../redux/api/usersApiSlice.js"; // Adjust import to your user slice
+import { useGetOrdersQuery } from "../../redux/api/OrderApiSlice.js";
+import { useGetAllProductsQuery } from "../../redux/api/ProductApiSlice.js";
+import { useGetUsersQuery } from "../../redux/api/UsersApiSlice.js"; // Adjust import to your user slice
 import { FaDollarSign, FaBoxes, FaUsers, FaShoppingCart, FaChartLine, FaArrowRight } from "react-icons/fa";
 
 // Import Recharts components for real graphic visual effects

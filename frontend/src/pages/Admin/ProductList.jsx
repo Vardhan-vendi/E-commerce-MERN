@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   useGetAllProductsQuery,
   useDeleteProductMutation,
-} from "../../redux/api/productApiSlice.js";
-import { useGetAllCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
+} from "../../redux/api/ProductApiSlice.js";
+import { useGetAllCategoriesQuery } from "../../redux/api/CategoryApiSlice.js";
 import { toast } from "react-toastify";
 
 const ProductList = () => {

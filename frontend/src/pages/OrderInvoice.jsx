@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useGetOrderDetailsQuery } from "../redux/api/orderApiSlice.js";
+import { useGetOrderDetailsQuery } from "../redux/api/OrderApiSlice.js";
 import {
   FaPrint,
   FaArrowLeft,

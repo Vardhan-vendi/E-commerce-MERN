@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
-} from "../../redux/api/productApiSlice.js";
+} from "../../redux/api/ProductApiSlice.js";
 import { addTocart } from "../../redux/features/cart/cartSlice.js";
 import { toast } from "react-toastify";
 
