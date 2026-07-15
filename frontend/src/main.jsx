@@ -21,8 +21,8 @@ import ProductDetails from "./components/Product/ProductDetails.jsx";
 import Favorites from "./components/Product/FavoriteProducts.jsx";
 import Cart from "./pages/Cart.jsx";
 import Shop from "./pages/User/Shop.jsx";
-import PlaceOrder from "./pages/placeOrders.jsx"; // Added import
-import PaymentStatus from "./pages/PaymentStatus.jsx"; // Added import
+import PlaceOrder from "./pages/PlaceOrders.jsx"; 
+import PaymentStatus from "./pages/PaymentStatus.jsx"; 
 import OrderInvoice from "./pages/OrderInvoice.jsx";
 import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
 import OrderList from "./pages/Admin/OrderList.jsx";

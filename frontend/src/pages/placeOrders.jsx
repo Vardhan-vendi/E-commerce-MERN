@@ -70,7 +70,7 @@ const PlaceOrder = () => {
   const isProcessing = isCreatingOrder || isPayingOrder;
 
   return (
-    <div className="w-full h-full flex flex-col p-4 sm:p-6 md:p-8 space-y-8 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
+    <div className="w-full h-full flex flex-col p-4 sm:p-6 md:p-8 space-y-8 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent scrollbar-none [-ms-overflow-style:none]">
       {/* Title */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight border-l-4 border-purple-500 pl-3">
@@ -104,7 +104,7 @@ const PlaceOrder = () => {
             <div className="space-y-3">
               {cartItems.map((item) => (
                 <div key={item._id} className="flex justify-between items-center text-xs sm:text-sm text-slate-300">
-                  <span className="truncate max-w-[200px] sm:max-w-xs">{item.name}</span>
+                  <span className="truncate max-w-50 sm:max-w-xs">{item.name}</span>
                   <span>
                     {item.qty} x ${item.price} = <span className="text-white font-bold">${(item.qty * item.price).toFixed(2)}</span>
                   </span>
@@ -135,7 +135,7 @@ const PlaceOrder = () => {
             </div>
             <div className="flex justify-between border-t border-white/5 pt-3 text-base">
               <span className="text-slate-400">Total Price:</span>
-              <span className="font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+              <span className="font-black text-transparent bg-clip-text bg-linear-to-r from-purple-400 to-pink-400">
                 ${totalPrice.toFixed(2)}
               </span>
             </div>
@@ -144,7 +144,7 @@ const PlaceOrder = () => {
           <button
             onClick={handlePlaceOrder}
             disabled={cartItems.length === 0 || isProcessing}
-            className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/20 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-xs uppercase tracking-wider"
+            className="w-full py-3.5 bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-purple-500/20 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-xs uppercase tracking-wider"
           >
             {isProcessing ? "Processing..." : "Place Order & Pay"}
           </button>

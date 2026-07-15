@@ -12,9 +12,11 @@ const PaymentStatus = () => {
       <div className="w-20 h-20 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shadow-lg shadow-emerald-500/10 animate-pulse">
         <FaCheckCircle className="text-emerald-400 text-4xl" />
       </div>
-      
+
       <div className="space-y-2">
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Payment Successful!</h1>
+        <h1 className="text-2xl font-extrabold text-white tracking-tight">
+          Payment Successful!
+        </h1>
         <p className="text-xs text-slate-400 max-w-xs mx-auto">
           Thank you for your purchase. Your transaction reference is:
         </p>
@@ -25,7 +27,7 @@ const PaymentStatus = () => {
 
       <button
         onClick={() => navigate("/shopping")}
-        className="px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider shadow-lg active:scale-95 transition-all"
+        className="px-6 py-3 rounded-xl bg-linear-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold uppercase tracking-wider shadow-lg active:scale-95 transition-all"
       >
         Continue Shopping
       </button>
