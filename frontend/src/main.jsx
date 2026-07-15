@@ -17,6 +17,7 @@ import ProductList from "./pages/Admin/ProductList.jsx";
 import ProductUpdate from "./components/Product/ProductUpdate.jsx";
 import ProductCreate from "./components/Product/ProductCreate.jsx";
 import Home from "./Home.jsx";
+import Intro from "./pages/Intro.jsx";
 import ProductDetails from "./components/Product/ProductDetails.jsx";
 import Favorites from "./components/Product/FavoriteProducts.jsx";
 import Cart from "./pages/Cart.jsx";
@@ -32,7 +33,9 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
-      <Route index={true} path="/" element={<Home/>}/>
+      <Route index={true} path="/" element={<Intro />}/>
+      <Route path="/about" element={<Intro />}/>
+      <Route path="/store" element={<Home/>}/>
       <Route path="/product/:id" element={<ProductDetails />} />
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/cart" element={<Cart />} />
