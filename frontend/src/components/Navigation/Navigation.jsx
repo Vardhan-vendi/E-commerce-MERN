@@ -120,7 +120,7 @@ const Navigation = () => {
         onMouseLeave={() => {
           setDropDownOpen(false);
         }}
-        className={`fixed md:sticky top-0 left-0 h-screen bg-[#080b11] border-r border-slate-900/60 p-4 flex flex-col justify-between text-white transition-all duration-300 ease-in-out group z-50
+        className={`fixed md:sticky top-0 left-0 h-screen overflow-y-auto no-scrollbar bg-[#080b11] border-r border-slate-900/60 p-4 flex flex-col justify-between text-white transition-all duration-300 ease-in-out group z-50
           ${showSideBar ? "translate-x-0 w-64" : "-translate-x-full md:translate-x-0 w-20 md:hover:w-64"}
         `}
       >
