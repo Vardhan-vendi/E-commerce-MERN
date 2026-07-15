@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { 
@@ -23,18 +22,6 @@ import {
 
 const Intro = () => {
   const { userInfo } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    // Hide scrollbar on mount
-    document.documentElement.classList.add("no-scrollbar");
-    document.body.classList.add("no-scrollbar");
-    
-    // Restore scrollbar on unmount
-    return () => {
-      document.documentElement.classList.remove("no-scrollbar");
-      document.body.classList.remove("no-scrollbar");
-    };
-  }, []);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -140,7 +127,7 @@ const Intro = () => {
   ];
 
   return (
-    <div className="w-full min-h-screen bg-[#030712] text-white flex flex-col justify-between pt-24 pb-24 px-4 sm:px-6 lg:px-8 relative">
+    <div className="w-full h-full overflow-y-auto no-scrollbar bg-[#030712] text-white flex flex-col justify-between pt-24 pb-24 px-4 sm:px-6 lg:px-8 relative">
       {/* Premium background grid texture */}
       <div className="absolute inset-0 bg-[radial-gradient(#ffffff02_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
