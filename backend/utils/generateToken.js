@@ -4,10 +4,10 @@ export const generateToken =  (id,res) => {
 
  res.cookie('userToken',token,{
 
-    httpOnly: true,
-    secure : process.env.NODE_ENV !== 'development',
-    sameSite : 'strict',
-    maxAge : 30*24*60*60*1000
+   httpOnly: true,
+    secure: true,          // Render uses HTTPS
+    sameSite: "none",      // Allow cross-site cookies
+    maxAge: 30 * 24 * 60 * 60 * 1000,
  })
 
 
