@@ -1,5 +1,5 @@
 import { GoHome } from "react-icons/go";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiShoppingCart, FiPackage } from "react-icons/fi";
 import { RiLoginCircleLine } from "react-icons/ri";
 import { TbUserPlus } from "react-icons/tb";
 import { RiHeart2Fill } from "react-icons/ri";
@@ -11,12 +11,33 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/features/User/userSlice.js";
 import { useLogoutMutation } from "../../redux/api/UsersApiSlice.js";
+import { useGetMyOrdersQuery } from "../../redux/api/OrderApiSlice.js";
+import { toast } from "react-toastify";
 
 const Navigation = () => {
   const { userInfo } = useSelector((state) => state.user);
   const [LogoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { data: myOrders, isLoading: isOrdersLoading } = useGetMyOrdersQuery(undefined, {
+    skip: !userInfo,
+  });
+
+  const handleRecentOrderClick = () => {
+    closeSideBar();
+    if (isOrdersLoading) {
+      toast.info("Loading order details...");
+      return;
+    }
+    if (!myOrders || myOrders.length === 0) {
+      toast.warning("No orders placed yet!");
+      return;
+    }
+    const sortedOrders = [...myOrders].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    const recentOrder = sortedOrders[0];
+    navigate(`/order/${recentOrder._id}`);
+  };
 
   const [dropDownOpen, setDropDownOpen] = useState(false);
   const [showSideBar, setShowSideBar] = useState(false);
@@ -168,6 +189,23 @@ const Navigation = () => {
               CART
             </span>
           </Link>
+
+          {userInfo && (
+            <button
+              onClick={handleRecentOrderClick}
+              className="flex items-center w-full text-left p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-300 relative group/link focus:outline-none"
+            >
+              <div className="absolute left-0 w-1 h-0 bg-violet-500 rounded-r-full group-hover/link:h-6 transition-all duration-300" />
+              <FiPackage size={22} className="flex-shrink-0" />
+              <span
+                className={`ml-4 text-sm font-semibold tracking-wide whitespace-nowrap transition-opacity duration-300
+                  ${showSideBar ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}
+                `}
+              >
+                RECENT ORDER
+              </span>
+            </button>
+          )}
         </div>
 
         {/* User Session Footer Actions */}
