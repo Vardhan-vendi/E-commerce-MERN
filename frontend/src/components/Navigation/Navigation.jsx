@@ -1,5 +1,5 @@
 import { GoHome } from "react-icons/go";
-import { FiShoppingCart, FiInfo } from "react-icons/fi";
+import { FiShoppingCart } from "react-icons/fi";
 import { RiLoginCircleLine } from "react-icons/ri";
 import { TbUserPlus } from "react-icons/tb";
 import { RiHeart2Fill } from "react-icons/ri";
@@ -118,22 +118,6 @@ const Navigation = () => {
               `}
             >
               HOME
-            </span>
-          </Link>
-
-          <Link
-            to="/about"
-            onClick={closeSideBar}
-            className="flex items-center p-3 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-300 relative group/link"
-          >
-            <div className="absolute left-0 w-1 h-0 bg-violet-500 rounded-r-full group-hover/link:h-6 transition-all duration-300" />
-            <FiInfo size={22} className="flex-shrink-0" />
-            <span
-              className={`ml-4 text-sm font-semibold tracking-wide whitespace-nowrap transition-opacity duration-300
-                ${showSideBar ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}
-              `}
-            >
-              ABOUT
             </span>
           </Link>
 
