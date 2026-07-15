@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   useGetAllProductsQuery,
@@ -17,6 +17,10 @@ import ProductCard from "../../components/Product/ProductCard.jsx";
 
 const Shop = () => {
   const dispatch = useDispatch();
+
+  const [categoriesExpanded, setCategoriesExpanded] = useState(false);
+  const [brandsExpanded, setBrandsExpanded] = useState(false);
+  const [priceExpanded, setPriceExpanded] = useState(false);
 
   // Retrieve shop filter states from Redux
   const {
@@ -124,9 +128,9 @@ const Shop = () => {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col md:flex-row p-4 sm:p-6 gap-6 overflow-hidden">
+    <div className="w-full h-full flex flex-col md:flex-row p-4 sm:p-6 gap-6 md:overflow-hidden overflow-y-auto">
       {/* ── Left Column: Filters Sidebar (Scrollbars Transparent) ── */}
-      <div className="w-full md:w-64 flex-shrink-0 bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col space-y-6 h-fit md:h-full md:overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
+      <div className="w-full md:w-64 flex-shrink-0 bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col space-y-6 h-auto md:h-full md:overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
         <div className="flex justify-between items-center border-b border-white/10 pb-3">
           <h2 className="text-sm font-bold text-white uppercase tracking-wider">
             Filters
@@ -141,91 +145,148 @@ const Shop = () => {
 
         {/* Filter by Category */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-purple-300 uppercase tracking-wider">
-            Categories
-          </h3>
-          {categoriesLoading ? (
-            <div className="space-y-2 animate-pulse">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-4 bg-white/5 rounded w-3/4" />
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-2 max-h-40 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
-              {categories.map((c) => (
-                <label
-                  key={c._id}
-                  className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
-                >
-                  <input
-                    type="checkbox"
-                    checked={checked.includes(c._id)}
-                    onChange={(e) =>
-                      handleCategoryCheck(e.target.checked, c._id)
-                    }
-                    className="accent-purple-500 rounded border-white/10 bg-transparent focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
-                  />
-                  <span>{c.name}</span>
-                </label>
-              ))}
-            </div>
-          )}
+          <button
+            type="button"
+            onClick={() => setCategoriesExpanded(!categoriesExpanded)}
+            className="w-full flex items-center justify-between text-left md:pointer-events-none focus:outline-none"
+          >
+            <h3 className="text-xs font-bold text-purple-300 uppercase tracking-wider">
+              Categories
+            </h3>
+            <span className="text-purple-300 md:hidden transition-transform duration-200">
+              {categoriesExpanded ? (
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </span>
+          </button>
+          <div className={`space-y-2 md:block ${categoriesExpanded ? "block" : "hidden"}`}>
+            {categoriesLoading ? (
+              <div className="space-y-2 animate-pulse">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="h-4 bg-white/5 rounded w-3/4" />
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-40 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
+                {categories.map((c) => (
+                  <label
+                    key={c._id}
+                    className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked.includes(c._id)}
+                      onChange={(e) =>
+                        handleCategoryCheck(e.target.checked, c._id)
+                      }
+                      className="accent-purple-500 rounded border-white/10 bg-transparent focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
+                    />
+                    <span>{c.name}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Filter by Brand */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-pink-400 uppercase tracking-wider">
-            Brands
-          </h3>
-          <div className="space-y-2 max-h-40 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
-            {uniqueBrands.map((brandName) => (
-              <label
-                key={brandName}
-                className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedBrands.includes(brandName)}
-                  onChange={(e) =>
-                    handleBrandCheck(e.target.checked, brandName)
-                  }
-                  className="accent-purple-500 rounded border-white/10 bg-transparent focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
-                />
-                <span>{brandName}</span>
-              </label>
-            ))}
+          <button
+            type="button"
+            onClick={() => setBrandsExpanded(!brandsExpanded)}
+            className="w-full flex items-center justify-between text-left md:pointer-events-none focus:outline-none"
+          >
+            <h3 className="text-xs font-bold text-pink-400 uppercase tracking-wider">
+              Brands
+            </h3>
+            <span className="text-pink-400 md:hidden transition-transform duration-200">
+              {brandsExpanded ? (
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </span>
+          </button>
+          <div className={`space-y-2 md:block ${brandsExpanded ? "block" : "hidden"}`}>
+            <div className="space-y-2 max-h-40 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
+              {uniqueBrands.map((brandName) => (
+                <label
+                  key={brandName}
+                  className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedBrands.includes(brandName)}
+                    onChange={(e) =>
+                      handleBrandCheck(e.target.checked, brandName)
+                    }
+                    className="accent-purple-500 rounded border-white/10 bg-transparent focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
+                  />
+                  <span>{brandName}</span>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Filter by Price */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
-            Price Range
-          </h3>
-          <div className="space-y-2">
-            {priceRanges.map((range, index) => (
-              <label
-                key={index}
-                className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
-              >
-                <input
-                  type="radio"
-                  name="price-range"
-                  checked={
-                    JSON.stringify(radio) === JSON.stringify(range.value)
-                  }
-                  onChange={() => dispatch(setRadio(range.value))}
-                  className="accent-purple-500 bg-transparent border-white/10 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
-                />
-                <span>{range.name}</span>
-              </label>
-            ))}
+          <button
+            type="button"
+            onClick={() => setPriceExpanded(!priceExpanded)}
+            className="w-full flex items-center justify-between text-left md:pointer-events-none focus:outline-none"
+          >
+            <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
+              Price Range
+            </h3>
+            <span className="text-indigo-400 md:hidden transition-transform duration-200">
+              {priceExpanded ? (
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              ) : (
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              )}
+            </span>
+          </button>
+          <div className={`space-y-2 md:block ${priceExpanded ? "block" : "hidden"}`}>
+            <div className="space-y-2">
+              {priceRanges.map((range, index) => (
+                <label
+                  key={index}
+                  className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
+                >
+                  <input
+                    type="radio"
+                    name="price-range"
+                    checked={
+                      JSON.stringify(radio) === JSON.stringify(range.value)
+                    }
+                    onChange={() => dispatch(setRadio(range.value))}
+                    className="accent-purple-500 bg-transparent border-white/10 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
+                  />
+                  <span>{range.name}</span>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* ── Right Column: Products Display ── */}
-      <div className="flex-1 flex flex-col space-y-6 h-full overflow-hidden">
+      <div className="flex-1 flex flex-col space-y-6 h-auto md:h-full md:overflow-hidden">
         {/* Top Action Bar (Search & Sort) */}
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white/5 border border-white/10 rounded-2xl p-4">
           {/* Search Box */}
@@ -272,7 +333,7 @@ const Shop = () => {
         </div>
 
         {/* Products Grid (Scrollbars Transparent) */}
-        <div className="flex-grow overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
+        <div className="flex-grow overflow-visible md:overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
           {productsLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (

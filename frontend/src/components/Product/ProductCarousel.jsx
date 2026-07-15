@@ -27,20 +27,19 @@ const ProductCarousel = ({ products = [] }) => {
     : null;
 
   return (
-    /* Added relative and flex-shrink-0 to prevent collapsing in flex layouts */
-    <div className="relative border w-full h-[400px] sm:h-[450px] flex-shrink-0 rounded-3xl overflow-hidden bg-[#101424] shadow-2xl flex border-white/10">
+    <div className="relative border w-full h-[400px] sm:h-[450px] flex-shrink-0 rounded-3xl overflow-hidden bg-[#101424] shadow-2xl flex flex-col md:flex-row border-white/10">
 
       {/* LEFT: Text & Info */}
-      <div className="w-1/2 p-6 sm:p-10 flex flex-col justify-center text-white z-10">
+      <div className="w-full md:w-1/2 p-6 sm:p-10 flex flex-col justify-center text-white z-10 relative">
         <p className="uppercase text-xs tracking-widest text-purple-400 font-bold">
           {currentProduct.brand}
         </p>
 
-        <h1 className="text-2xl sm:text-4xl font-bold mt-3 leading-tight line-clamp-2">
+        <h1 className="text-2xl sm:text-4xl font-bold mt-2 sm:mt-3 leading-tight line-clamp-2">
           {currentProduct.name}
         </h1>
 
-        <div className="flex items-center gap-4 mt-4 text-xs sm:text-sm">
+        <div className="flex items-center gap-4 mt-3 sm:mt-4 text-xs sm:text-sm">
           <span className="bg-purple-600 px-3 py-1 rounded-full text-white text-[10px] sm:text-xs">
             ★ {currentProduct.rating?.toFixed(1) || "5.0"}
           </span>
@@ -50,25 +49,25 @@ const ProductCarousel = ({ products = [] }) => {
           <span className="text-slate-400">Stock: {currentProduct.countInStock || 0}</span>
         </div>
 
-        <p className="mt-5 text-xs sm:text-sm text-gray-300 line-clamp-3">
+        <p className="mt-4 sm:mt-5 text-xs sm:text-sm text-gray-300 line-clamp-3 md:line-clamp-4">
           {currentProduct.description}
         </p>
 
         <button
           onClick={() => navigate(`/product/${currentProduct._id}`)}
-          className="mt-8 w-fit px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm font-bold uppercase tracking-wider"
+          className="mt-6 sm:mt-8 w-fit px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:scale-105 active:scale-95 transition-all text-xs sm:text-sm font-bold uppercase tracking-wider"
         >
           Buy Now
         </button>
       </div>
 
       {/* RIGHT: Product Image */}
-      <div className="relative w-1/2 h-full">
+      <div className="absolute inset-0 md:relative w-full md:w-1/2 h-full z-0 md:z-10">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={currentProduct.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-20 md:opacity-100"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-white text-xs">
@@ -76,7 +75,7 @@ const ProductCarousel = ({ products = [] }) => {
           </div>
         )}
         {/* Angled faded overlay divider */}
-        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-[#101424]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101424] via-[#101424]/85 to-transparent md:bg-gradient-to-l md:from-transparent md:via-transparent md:to-[#101424]" />
       </div>
 
       {/* Dots (Positioned correctly at the bottom of the relative carousel) */}

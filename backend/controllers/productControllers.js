@@ -111,11 +111,13 @@ const getAllProducts = asyncHandler(async (req, res) => {
 });
 
 const getProductById = asyncHandler(async (req, res) => {
+  console.log("Fetching product by ID:", req.params.id);
   const product = await ProductModel.findById(req.params.id).populate(
     "category",
   );
 
   if (!product) {
+    console.log("Product not found in DB:", req.params.id);
     res.status(404);
     throw new Error("Product not found");
   }

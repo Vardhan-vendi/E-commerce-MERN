@@ -72,9 +72,9 @@ const UsersList = () => {
   }
 
   return (
-    <div className="p-8">
+    <div className="w-full h-full flex flex-col p-4 sm:p-6 md:p-8 space-y-6 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
       {/* 3 cards per row on large screens, left‑to‑right flow */}
-      <div className="flex flex-col items-center mb-4">
+      <div className="flex flex-col items-center mb-4 flex-shrink-0">
         <h2 className="text-3xl font-bold font-[Poppins] text-purple-400 tracking-wider">
           USER LIST
         </h2>

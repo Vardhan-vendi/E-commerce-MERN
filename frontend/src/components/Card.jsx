@@ -12,10 +12,10 @@ const Card = ({ user, onEdit, onDelete }) => {
 
   return (
     <div
-      className="group relative flex max-w-[32rem] w-full cursor-pointer rounded-2xl
-                 bg-purple-900/40 backdrop-blur-xl border border-purple-700/30 p-6 space-x-5
+      className="group relative flex flex-col sm:flex-row max-w-[32rem] w-full cursor-pointer rounded-2xl
+                 bg-purple-900/40 backdrop-blur-xl border border-purple-700/30 p-6 space-y-4 sm:space-y-0 sm:space-x-5
                  shadow-[0_4px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.2)]
-                 hover:-translate-y-2 hover:scale-105 transition-all duration-300"
+                 hover:-translate-y-2 hover:scale-105 transition-all duration-300 items-center sm:items-start"
     >
       {/* Avatar – purple gradient */}
       <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full
@@ -25,7 +25,7 @@ const Card = ({ user, onEdit, onDelete }) => {
       </div>
 
       {/* Details */}
-      <div className="flex flex-col flex-1 justify-between space-y-3">
+      <div className="flex flex-col flex-1 justify-between space-y-3 text-center sm:text-left w-full">
         <h2 className="text-xl font-bold text-purple-300">{username}</h2>
 
         <p className="text-sm text-gray-300">

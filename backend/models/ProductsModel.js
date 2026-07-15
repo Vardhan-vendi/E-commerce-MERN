@@ -17,11 +17,12 @@ const reviewSchema = mongoose.Schema(
 );
 
 const productSchema = mongoose.Schema({
+  _id: { type: String, default: () => new mongoose.Types.ObjectId().toString() },
   name: { type: String, required: true },
   image: { type: String, required: true },
   brand: { type: String, required: true },
   quantity: { type: Number, required: true },
-  category: { type: ObjectId, ref: "Category" },
+  category: { type: String, ref: "Category" },
   description: { type: String, required: true },
   reviews: [reviewSchema],
   rating: { type: Number, required: true, default: 0 },

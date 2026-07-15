@@ -1,11 +1,18 @@
-#navigation-container {
-  width: 5%;
-  overflow: hidden;
-  transition: width 0.4s ease-in-out;
-}
+@media (min-width: 768px) {
+  #navigation-container {
+    width: 5%;
+    overflow: hidden;
+    transition: width 0.4s ease-in-out;
+  }
 
-#navigation-container:hover {
-  width: 15%;
+  #navigation-container:hover {
+    width: 15%;
+  }
+
+  #navigation-container:hover .nav-item-name {
+      opacity: 1;
+      visibility: visible;
+  }
 }
 
 .nav-item-name {
@@ -14,10 +21,6 @@
   white-space: nowrap;
 
   transition: opacity 0.3s ease-in-out;
-}
-#navigation-container:hover .nav-item-name {
-    opacity: 1;
-    visibility: visible;
 }
 
 /* Glassmorphism profile dropdown menu */

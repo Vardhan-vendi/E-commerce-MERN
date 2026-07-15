@@ -120,8 +120,8 @@ const Login = () => {
       </div>
 
       {/* Login Card Wrapper */}
-      <div className="relative w-[28rem] z-10 p-[1px] rounded-2xl overflow-hidden bg-gradient-to-b from-white/10 to-transparent">
-        <div className={`w-full h-full glass-card p-10 rounded-[15px] flex flex-col ${shake ? 'animate-shake' : ''}`}>
+      <div className="relative w-full max-w-[28rem] mx-4 sm:mx-0 z-10 p-[1px] rounded-2xl overflow-hidden bg-gradient-to-b from-white/10 to-transparent">
+        <div className={`w-full h-full glass-card p-6 sm:p-10 rounded-[15px] flex flex-col ${shake ? 'animate-shake' : ''}`}>
           
           <div className="text-center mb-8">
             <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-400 tracking-tight mb-2">
