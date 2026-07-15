@@ -16,9 +16,20 @@ import path from 'path'
 dotenv.config();
 const app = express();
 
+const allowedOrigins = [
+  "https://mvstore-beta.vercel.app",
+  "https://mvstore-4f6v675su-vardhan-vendis-projects.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "https://mvstore-4f6v675su-vardhan-vendis-projects.vercel.app",
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
