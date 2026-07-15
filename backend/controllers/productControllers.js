@@ -100,9 +100,8 @@ const getAllProducts = asyncHandler(async (req, res) => {
     ? { name: { $regex: req.query.keyword, $options: "i" } }
     : {};
   const count = await ProductModel.countDocuments({ ...keyword });
-  const products = await ProductModel.find({ ...keyword })
-    .populate("category")
-    // .limit(pageSize);
+  const products = await ProductModel.find({ ...keyword }).populate("category");
+  // .limit(pageSize);
   res.status(200).json({
     products,
     page: 1,
@@ -112,7 +111,9 @@ const getAllProducts = asyncHandler(async (req, res) => {
 });
 
 const getProductById = asyncHandler(async (req, res) => {
- const product = await ProductModel.findById(req.params.id).populate("category");
+  const product = await ProductModel.findById(req.params.id).populate(
+    "category",
+  );
 
   if (!product) {
     res.status(404);
@@ -181,6 +182,36 @@ const fetchNewProducts = asyncHandler(async (req, res) => {
   }
 });
 
+const filterProducts = asyncHandler(async (req, res) => {
+  try {
+    const { checked, radio } = req.body;
+
+    let args = {};
+
+    // 1. Filter by categories (checked array of category IDs)
+    if (checked && checked.length > 0) {
+      args.category = { $in: checked };
+    }
+
+    // 2. Filter by price range (radio array [min, max])
+    if (radio && radio.length === 2) {
+      args.price = {
+        $gte: Number(radio[0]),
+        $lte: Number(radio[1]),
+      };
+    }
+
+    // 3. Find products matching the query arguments (FIXED: Changed Product to ProductModel)
+    const products = await ProductModel.find(args);
+
+    // 4. Return results
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server Error: Failed to filter products" });
+  }
+});
+
 export {
   addProduct,
   updateProduct,
@@ -190,4 +221,5 @@ export {
   addProductReview,
   fetchTopProducts,
   fetchNewProducts,
+  filterProducts,
 };

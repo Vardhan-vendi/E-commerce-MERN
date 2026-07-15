@@ -10,7 +10,8 @@ import {
   getProductById,
   addProductReview,
   fetchTopProducts,
-  fetchNewProducts
+  fetchNewProducts,
+  filterProducts,
 } from "../controllers/productControllers.js";
 
 const router = express.Router();
@@ -18,21 +19,20 @@ const router = express.Router();
 router
   .route("/")
   .get(getAllProducts)
-  .post(authenticate, autherizeAdmin, formidable(), addProduct)
+  .post(authenticate, autherizeAdmin, formidable(), addProduct);
 
-router.route('/allproducts').get(getAllProducts)
-router.route("/topProducts").get(fetchTopProducts) 
-router.route("/newProducts").get(fetchNewProducts)
+router.route("/allproducts").get(getAllProducts);
+router.route("/topProducts").get(fetchTopProducts);
+router.route("/newProducts").get(fetchNewProducts);
 router
   .route("/:id")
   .get(getProductById)
   .put(authenticate, autherizeAdmin, formidable(), updateProduct)
   .delete(authenticate, autherizeAdmin, deleteProduct);
 
-
-router.route('/:id/reviews').post(authenticate,autherizeAdmin,addProductReview)
-
-
-
+router
+  .route("/:id/reviews")
+  .post(authenticate, autherizeAdmin, addProductReview);
+router.route("/filtered-products").post(filterProducts);
 
 export default router;

@@ -254,7 +254,7 @@ const Navigation = () => {
                       Category
                     </Link>
                     <Link
-                      to="/admin/OrdersList"
+                      to="/admin/orderList"
                       onClick={() => {
                         setDropDownOpen(false);
                         closeSideBar();

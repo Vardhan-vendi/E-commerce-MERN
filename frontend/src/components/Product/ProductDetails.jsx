@@ -1,32 +1,36 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux"; // Added useDispatch
+import { useSelector, useDispatch } from "react-redux";
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
 } from "../../redux/api/productApiSlice.js";
-import { addTocart } from "../../redux/features/cart/cartSlice.js"; // Added cart action import
+import { addTocart } from "../../redux/features/cart/cartSlice.js";
 import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // Initialize dispatch
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
 
-  const { data: product, isLoading, error, refetch } = useGetProductDetailsQuery(id);
-  const [createReview, { isLoading: isSubmittingReview }] = useCreateReviewMutation();
+  const {
+    data: product,
+    isLoading,
+    error,
+    refetch,
+  } = useGetProductDetailsQuery(id);
+  const [createReview, { isLoading: isSubmittingReview }] =
+    useCreateReviewMutation();
 
-  // Local state for quantity and reviews
-  const [qty, setQty] = useState(1); // Added qty state
+  const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
 
-  // Add to cart handler
+  // Modified: No longer redirects to /cart on success
   const handleAddToCart = () => {
     dispatch(addTocart({ ...product, qty }));
     toast.success("Item added to cart successfully!");
-    navigate("/cart");
   };
 
   const handleReviewSubmit = async (e) => {
@@ -62,14 +66,16 @@ const ProductDetails = () => {
     return (
       <div className="text-center py-20">
         <p className="text-red-400">Error loading product details.</p>
-        <button onClick={() => navigate("/")} className="mt-4 text-purple-400 hover:underline">
+        <button
+          onClick={() => navigate("/")}
+          className="mt-4 text-purple-400 hover:underline"
+        >
           Go back home
         </button>
       </div>
     );
   }
 
-  // Parse clean image URL (handles external URLs and backend uploads)
   const imageUrl = product.image
     ? product.image.startsWith("http")
       ? product.image
@@ -90,7 +96,6 @@ const ProductDetails = () => {
 
       {/* Main product display card */}
       <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 sm:p-8 rounded-3xl shadow-2xl grid grid-cols-1 md:grid-cols-2 gap-8">
-        
         {/* Left Side: Product Image */}
         <div className="flex items-center justify-center border border-purple-500/20 bg-purple-950/5 rounded-2xl p-4 overflow-hidden relative min-h-[300px]">
           {imageUrl ? (
@@ -120,9 +125,13 @@ const ProductDetails = () => {
               <span className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
                 ${product.price}
               </span>
-              <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
-                product.countInStock > 0 ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-red-500/20 text-red-400 border border-red-500/30"
-              }`}>
+              <span
+                className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
+                  product.countInStock > 0
+                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                    : "bg-red-500/20 text-red-400 border border-red-500/30"
+                }`}
+              >
                 {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
               </span>
             </div>
@@ -135,10 +144,16 @@ const ProductDetails = () => {
           <div className="border-t border-white/10 pt-6 space-y-6">
             <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
               <div className="text-slate-400">
-                Quantity Available: <span className="text-white font-medium">{product.quantity}</span>
+                Quantity Available:{" "}
+                <span className="text-white font-medium">
+                  {product.quantity}
+                </span>
               </div>
               <div className="text-slate-400">
-                Average Rating: <span className="text-amber-400 font-bold">★ {product.rating?.toFixed(1) || "0.0"}</span>
+                Average Rating:{" "}
+                <span className="text-amber-400 font-bold">
+                  ★ {product.rating?.toFixed(1) || "0.0"}
+                </span>
               </div>
             </div>
 
@@ -159,7 +174,7 @@ const ProductDetails = () => {
                 </select>
               </div>
             )}
-            
+
             <button
               onClick={handleAddToCart}
               disabled={product.countInStock === 0}
@@ -178,14 +193,17 @@ const ProductDetails = () => {
         </h3>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
           {/* Review input form */}
           <div className="lg:col-span-1 bg-purple-950/10 border border-purple-500/20 p-5 rounded-2xl h-fit">
-            <h4 className="text-sm font-semibold text-white mb-4">Write a Customer Review</h4>
+            <h4 className="text-sm font-semibold text-white mb-4">
+              Write a Customer Review
+            </h4>
             {userInfo ? (
               <form onSubmit={handleReviewSubmit} className="space-y-4">
                 <div className="flex flex-col space-y-1">
-                  <label htmlFor="rating" className="text-xs text-slate-400">Rating</label>
+                  <label htmlFor="rating" className="text-xs text-slate-400">
+                    Rating
+                  </label>
                   <select
                     id="rating"
                     value={rating}
@@ -199,9 +217,11 @@ const ProductDetails = () => {
                     <option value={1}>1 - Poor</option>
                   </select>
                 </div>
-                
+
                 <div className="flex flex-col space-y-1">
-                  <label htmlFor="comment" className="text-xs text-slate-400">Comment</label>
+                  <label htmlFor="comment" className="text-xs text-slate-400">
+                    Comment
+                  </label>
                   <textarea
                     id="comment"
                     rows={3}
@@ -211,7 +231,7 @@ const ProductDetails = () => {
                     placeholder="Share your thoughts about this product..."
                   />
                 </div>
-                
+
                 <button
                   type="submit"
                   disabled={isSubmittingReview}
@@ -222,7 +242,14 @@ const ProductDetails = () => {
               </form>
             ) : (
               <p className="text-xs text-slate-400">
-                Please <span className="text-purple-400 cursor-pointer hover:underline" onClick={() => navigate("/login")}>sign in</span> to write a review.
+                Please{" "}
+                <span
+                  className="text-purple-400 cursor-pointer hover:underline"
+                  onClick={() => navigate("/login")}
+                >
+                  sign in
+                </span>{" "}
+                to write a review.
               </p>
             )}
           </div>
@@ -236,7 +263,9 @@ const ProductDetails = () => {
                   className="bg-white/5 border border-white/5 p-4 rounded-xl space-y-2 shadow-sm"
                 >
                   <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-purple-300">{review.name}</span>
+                    <span className="font-bold text-purple-300">
+                      {review.name}
+                    </span>
                     <span className="text-slate-500">
                       {new Date(review.createdAt).toLocaleDateString()}
                     </span>
@@ -256,7 +285,6 @@ const ProductDetails = () => {
               </p>
             )}
           </div>
-
         </div>
       </div>
     </div>

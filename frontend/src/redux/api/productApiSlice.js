@@ -97,7 +97,14 @@ export const productApiSlice = apiSlice.injectEndpoints({
                 method :'POST',
                 body :data
             })
-        })
+        }),
+        getFilteredProducts: builder.query({
+            query: ({ checked, radio }) => ({
+                url: `${PRODUCT_URI}/filtered-products`,
+                method: "POST",
+                body: { checked, radio },
+            }),
+        }),
 
     })
 })
@@ -115,5 +122,7 @@ export const {
     useCreateReviewMutation,
     useGetTopProductsQuery,
     useGetNewProductsQuery,
-    useUploadProductImageMutation
+    useUploadProductImageMutation,
+    useGetFilteredProductsQuery
+
 } = productApiSlice

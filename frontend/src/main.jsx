@@ -21,6 +21,11 @@ import ProductDetails from "./components/Product/ProductDetails.jsx";
 import Favorites from "./components/Product/FavoriteProducts.jsx";
 import Cart from "./pages/Cart.jsx";
 import Shop from "./pages/User/Shop.jsx";
+import PlaceOrder from "./pages/placeOrders.jsx"; // Added import
+import PaymentStatus from "./pages/PaymentStatus.jsx"; // Added import
+import OrderInvoice from "./pages/OrderInvoice.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import OrderList from "./pages/Admin/OrderList.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,11 +37,13 @@ const router = createBrowserRouter(
       <Route path="/favorites" element={<Favorites />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/shopping" element={<Shop />} />
-
+      <Route path="/payment-status" element={<PaymentStatus />} /> {/* Added payment callback route */}
 
       <Route path="" element={<PrivateRoute />}>
         <Route path="profile" element={<Profile />} />
         <Route path="usersList" element={<Users />} />
+        <Route path="placeorder" element={<PlaceOrder />} /> {/* Added protected placeorder route */}
+         <Route path="order/:id" element={<OrderInvoice />} /> 
       </Route>
 
       {/* admin routes */}
@@ -46,6 +53,8 @@ const router = createBrowserRouter(
         <Route path="productList" element={<ProductList />} />
         <Route path="product/create" element={<ProductCreate />} />
         <Route path="product/update/:id" element={<ProductUpdate/>} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+         <Route path="orderList" element={<OrderList />} />
       </Route>
     </Route>,
   ),

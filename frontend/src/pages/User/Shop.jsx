@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useGetAllProductsQuery } from "../../redux/api/productApiSlice.js";
+import {
+  useGetAllProductsQuery,
+  useGetFilteredProductsQuery, // Added backend filter query
+} from "../../redux/api/productApiSlice.js";
 import { useGetAllCategoriesQuery } from "../../redux/api/categoryApiSlice.js";
 import {
   setChecked,
@@ -9,30 +12,45 @@ import {
   setSearchQuery,
   setSort,
   resetFilters,
-} from "../../redux/features/shop/shopSlice.js"; // Adjust import paths to your slices
+} from "../../redux/features/shop/shopSlice.js";
 import ProductCard from "../../components/Product/ProductCard.jsx";
 
 const Shop = () => {
   const dispatch = useDispatch();
 
   // Retrieve shop filter states from Redux
-  const { checked, radio, brands: selectedBrands, searchQuery, sort } = useSelector(
-    (state) => state.shop
-  );
+  const {
+    checked,
+    radio,
+    brands: selectedBrands,
+    searchQuery,
+    sort,
+  } = useSelector((state) => state.shop);
 
-  // Fetch products and categories from API
-  const { data: productsData = [], isLoading: productsLoading } = useGetAllProductsQuery();
-  const { data: categories = [], isLoading: categoriesLoading } = useGetAllCategoriesQuery();
+  // 1. Fetch categories
+  const { data: categories = [], isLoading: categoriesLoading } =
+    useGetAllCategoriesQuery();
 
-  // Safely extract the products array
-  const products = Array.isArray(productsData)
-    ? productsData
-    : productsData?.products || [];
+  // 2. Fetch all products to dynamically extract unique brands for the filter sidebar
+  const { data: allProductsData = [] } = useGetAllProductsQuery();
+  const allProducts = Array.isArray(allProductsData)
+    ? allProductsData
+    : allProductsData?.products || [];
 
-  // Extract unique brands dynamically from the loaded products
   const uniqueBrands = Array.from(
-    new Set(products.map((product) => product.brand).filter(Boolean))
+    new Set(allProducts.map((p) => p.brand).filter(Boolean)),
   );
+
+  // 3. Fetch filtered products directly from backend route using RTK Query
+  const { data: filteredData = [], isLoading: productsLoading } =
+    useGetFilteredProductsQuery({
+      checked,
+      radio,
+    });
+
+  const filteredProducts = Array.isArray(filteredData)
+    ? filteredData
+    : filteredData?.products || [];
 
   // Handle Category check/uncheck
   const handleCategoryCheck = (value, id) => {
@@ -56,27 +74,14 @@ const Shop = () => {
     dispatch(setBrands(updatedBrands));
   };
 
-  // Filter products locally for instant, fluid UI response
-  const filteredProducts = products.filter((product) => {
-    // 1. Category Filter
-    if (checked.length > 0 && !checked.includes(product.category)) {
-      return false;
-    }
-
-    // 2. Brand Filter
+  // Apply Brand & Search Filter on the backend-filtered results locally
+  const finalFilteredProducts = filteredProducts.filter((product) => {
+    // Brand Filter
     if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) {
       return false;
     }
 
-    // 3. Price Filter
-    if (radio.length === 2) {
-      const [min, max] = radio;
-      if (product.price < min || product.price > max) {
-        return false;
-      }
-    }
-
-    // 4. Search Filter
+    // Keyword Search Filter
     if (
       searchQuery &&
       !product.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -88,8 +93,8 @@ const Shop = () => {
     return true;
   });
 
-  // Sort products
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  // Apply Sort
+  const sortedProducts = [...finalFilteredProducts].sort((a, b) => {
     if (sort === "price-low") {
       return a.price - b.price;
     }
@@ -99,11 +104,10 @@ const Shop = () => {
     if (sort === "rating") {
       return b.rating - a.rating;
     }
-    // Default newest (assumes ID contains date info, or uses createdAt field)
     return new Date(b.createdAt || b._id) - new Date(a.createdAt || a._id);
   });
 
-  // Cleanup filters on component unmount (optional but recommended)
+  // Cleanup filters on component unmount
   useEffect(() => {
     return () => {
       dispatch(resetFilters());
@@ -121,11 +125,12 @@ const Shop = () => {
 
   return (
     <div className="w-full h-full flex flex-col md:flex-row p-4 sm:p-6 gap-6 overflow-hidden">
-      
-      {/* ── Left Column: Filters Sidebar ── */}
+      {/* ── Left Column: Filters Sidebar (Scrollbars Transparent) ── */}
       <div className="w-full md:w-64 flex-shrink-0 bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col space-y-6 h-fit md:h-full md:overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
         <div className="flex justify-between items-center border-b border-white/10 pb-3">
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider">Filters</h2>
+          <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+            Filters
+          </h2>
           <button
             onClick={() => dispatch(resetFilters())}
             className="text-xs text-purple-400 hover:text-purple-300 font-semibold transition-colors"
@@ -136,7 +141,9 @@ const Shop = () => {
 
         {/* Filter by Category */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-purple-300 uppercase tracking-wider">Categories</h3>
+          <h3 className="text-xs font-bold text-purple-300 uppercase tracking-wider">
+            Categories
+          </h3>
           {categoriesLoading ? (
             <div className="space-y-2 animate-pulse">
               {[...Array(3)].map((_, i) => (
@@ -144,13 +151,18 @@ const Shop = () => {
               ))}
             </div>
           ) : (
-            <div className="space-y-2 max-h-40 overflow-y-auto">
+            <div className="space-y-2 max-h-40 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
               {categories.map((c) => (
-                <label key={c._id} className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white">
+                <label
+                  key={c._id}
+                  className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
+                >
                   <input
                     type="checkbox"
                     checked={checked.includes(c._id)}
-                    onChange={(e) => handleCategoryCheck(e.target.checked, c._id)}
+                    onChange={(e) =>
+                      handleCategoryCheck(e.target.checked, c._id)
+                    }
                     className="accent-purple-500 rounded border-white/10 bg-transparent focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
                   />
                   <span>{c.name}</span>
@@ -162,14 +174,21 @@ const Shop = () => {
 
         {/* Filter by Brand */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-pink-400 uppercase tracking-wider">Brands</h3>
-          <div className="space-y-2 max-h-40 overflow-y-auto">
+          <h3 className="text-xs font-bold text-pink-400 uppercase tracking-wider">
+            Brands
+          </h3>
+          <div className="space-y-2 max-h-40 overflow-y-auto [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
             {uniqueBrands.map((brandName) => (
-              <label key={brandName} className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white">
+              <label
+                key={brandName}
+                className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
+              >
                 <input
                   type="checkbox"
                   checked={selectedBrands.includes(brandName)}
-                  onChange={(e) => handleBrandCheck(e.target.checked, brandName)}
+                  onChange={(e) =>
+                    handleBrandCheck(e.target.checked, brandName)
+                  }
                   className="accent-purple-500 rounded border-white/10 bg-transparent focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
                 />
                 <span>{brandName}</span>
@@ -180,14 +199,21 @@ const Shop = () => {
 
         {/* Filter by Price */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wider">Price Range</h3>
+          <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wider">
+            Price Range
+          </h3>
           <div className="space-y-2">
             {priceRanges.map((range, index) => (
-              <label key={index} className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white">
+              <label
+                key={index}
+                className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer hover:text-white"
+              >
                 <input
                   type="radio"
                   name="price-range"
-                  checked={JSON.stringify(radio) === JSON.stringify(range.value)}
+                  checked={
+                    JSON.stringify(radio) === JSON.stringify(range.value)
+                  }
                   onChange={() => dispatch(setRadio(range.value))}
                   className="accent-purple-500 bg-transparent border-white/10 focus:ring-0 focus:ring-offset-0 w-3.5 h-3.5"
                 />
@@ -200,7 +226,6 @@ const Shop = () => {
 
       {/* ── Right Column: Products Display ── */}
       <div className="flex-1 flex flex-col space-y-6 h-full overflow-hidden">
-        
         {/* Top Action Bar (Search & Sort) */}
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-white/5 border border-white/10 rounded-2xl p-4">
           {/* Search Box */}
@@ -212,9 +237,18 @@ const Shop = () => {
               onChange={(e) => dispatch(setSearchQuery(e.target.value))}
               className="w-full bg-white/5 border border-white/10 rounded-xl py-2 pl-9 pr-4 text-xs text-white placeholder-slate-500 outline-none focus:border-purple-500/50 transition-colors"
             />
-            {/* Search Icon */}
-            <svg className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg
+              className="w-4 h-4 text-slate-500 absolute left-3 top-2.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
           </div>
 
@@ -223,7 +257,7 @@ const Shop = () => {
             <span className="text-xs text-slate-400">
               Showing {sortedProducts.length} results
             </span>
-            
+
             <select
               value={sort}
               onChange={(e) => dispatch(setSort(e.target.value))}
@@ -237,12 +271,15 @@ const Shop = () => {
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="flex-1 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
+        {/* Products Grid (Scrollbars Transparent) */}
+        <div className="flex-grow overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:bg-transparent [scrollbar-width:none] [-ms-overflow-style:none]">
           {productsLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-64 rounded-2xl bg-white/5 animate-pulse" />
+                <div
+                  key={i}
+                  className="h-64 rounded-2xl bg-white/5 animate-pulse"
+                />
               ))}
             </div>
           ) : sortedProducts.length > 0 ? (
@@ -256,19 +293,31 @@ const Shop = () => {
           ) : (
             /* No Results Empty State */
             <div className="flex flex-col items-center justify-center py-24 space-y-4 bg-white/5 border border-white/10 rounded-2xl">
-              <svg className="w-12 h-12 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-12 h-12 text-slate-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <div className="text-center space-y-1">
-                <h3 className="text-sm font-bold text-white">No products found</h3>
-                <p className="text-xs text-slate-500">Try adjusting your filters or search terms.</p>
+                <h3 className="text-sm font-bold text-white">
+                  No products found
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Try adjusting your filters or search terms.
+                </p>
               </div>
             </div>
           )}
         </div>
-
       </div>
-
     </div>
   );
 };
