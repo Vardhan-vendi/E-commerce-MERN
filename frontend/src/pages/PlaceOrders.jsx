@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import {
   useCreateOrderMutation,
   usePayOrderMutation, // Imported to update paid status on backend
-} from "../redux/api/orderApiSlice.js"; // Adjust import paths
+} from "../redux/api/OrderApiSlice"; // Adjust import paths
 import { clearCartItems } from "../redux/features/cart/cartSlice.js";
 
 const PlaceOrder = () => {
