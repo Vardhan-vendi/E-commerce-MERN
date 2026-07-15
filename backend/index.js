@@ -39,6 +39,8 @@ app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
 
 // globel error handler middle ware
 app.use(asyncErrorHandler)
-app.listen(process.env.PORT,()=>{
-    console.log(`server running on http://localhost:${process.env.PORT}`)
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT,()=>{
+    console.log(`server running on http://localhost:${PORT}`)
 })
