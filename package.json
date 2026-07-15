@@ -4,29 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "backend": "cd backend && nodemon index.js",
-    "frontend": "cd frontend && npm run frontend",
-    "mv": "concurrently \" npm run backend\" \" npm run frontend \" "
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm run dev",
+    "mv": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@tailwindcss/vite": "^4.3.0",
-    "bcryptjs": "^3.0.3",
-    "concurrently": "^10.0.3",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "express-formidable": "^1.2.0",
-    "formidable": "^3.5.4",
-    "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.3",
-    "multer": "^2.1.1",
-    "nodemon": "^3.1.14",
-    "razorpay": "^2.9.6",
-    "tailwindcss": "^4.3.0"
+    "concurrently": "^10.0.3"
   }
 }
