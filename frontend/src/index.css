@@ -78,7 +78,7 @@ body,
   }
 }
 
-.group-hover\:animate-shine:hover {
+.group:hover .group-hover\:animate-shine {
   animation: shine 0.8s ease-in-out;
 }
 /* Spring slide-up animation for the Pop-up Modal */
