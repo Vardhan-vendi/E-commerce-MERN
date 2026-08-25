@@ -132,6 +132,23 @@ const Login = () => {
             </p>
           </div>
 
+          {/* Demo Credentials Info — visible to HR */}
+          <div className="mb-6 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4 text-xs text-slate-300 space-y-3">
+            <p className="text-center text-slate-400 font-semibold uppercase tracking-wider text-[10px] mb-2">Demo Credentials</p>
+            {/* Admin */}
+            <div className="flex flex-col space-y-1">
+              <span className="text-violet-400 font-semibold">🛡️ Admin UI</span>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Email</span>
+                <span className="font-mono text-slate-200 select-all">vardhan@gmail.com</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Password</span>
+                <span className="font-mono text-slate-200 select-all">vardhan</span>
+              </div>
+            </div>
+          </div>
+
           <form className="flex flex-col space-y-6" onSubmit={loginHandler}>
             
             {/* Email Input */}
