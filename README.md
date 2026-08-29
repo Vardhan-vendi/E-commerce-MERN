@@ -206,33 +206,41 @@ Deployed using Render.
 
 The application uses MongoDB Atlas as the cloud database.
 
-📸 Screenshots
+## 📸 Screenshots
 
-Add screenshots of the application here.
+### 🏠 Home Page
 
-🏠 Home Page
+![Home Page](screenshots/home.png)
 
-Add screenshot here
+---
 
-🔐 Login / Registration
+### 🔐 Login / Registration
 
-Add screenshot here
+![Login Page](screenshots/login.png)
 
-🛍️ Products
+---
 
-Add screenshot here
+### 🛍️ Products
 
-🛒 Shopping Cart
+![Product Page](screenshots/product.png)
 
-Add screenshot here
+---
 
-📦 Orders
+### 🛒 Shopping Cart
 
-Add screenshot here
+![Shopping Cart](screenshots/shopping.png)
 
-👑 Admin Dashboard
+---
 
-Add screenshot here
+### 🛒 Cart
+
+![Cart](screenshots/carts.png)
+
+---
+
+### 📦 Admin Dashboard
+
+![Admin Dashboard](screenshots/admin.png)
 
 🧠 What I Learned
 ⚛️ React.js frontend development
