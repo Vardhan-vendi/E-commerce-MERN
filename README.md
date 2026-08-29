@@ -214,21 +214,21 @@ The application uses MongoDB Atlas as the cloud database.
 
 ---
 
-### 🔐 Login / Registration
+### 🔐 Login Page
 
 ![Login Page](screenshots/login.png)
 
 ---
 
-### 🛍️ Products
+### 🛍️ Product Page
 
 ![Product Page](screenshots/product.png)
 
 ---
 
-### 🛒 Shopping Cart
+### 🛒 Shopping Page
 
-![Shopping Cart](screenshots/shopping.png)
+![Shopping Page](screenshots/shopping.png)
 
 ---
 
@@ -238,10 +238,9 @@ The application uses MongoDB Atlas as the cloud database.
 
 ---
 
-### 📦 Admin Dashboard
+### 👑 Admin Dashboard
 
 ![Admin Dashboard](screenshots/admin.png)
-
 🧠 What I Learned
 ⚛️ React.js frontend development
 🟢 Node.js backend development
