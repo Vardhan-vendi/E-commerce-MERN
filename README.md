@@ -77,8 +77,7 @@ A full-stack E-Commerce web application built using the MERN stack.
                ☁️ MongoDB Atlas
 🔐 Authentication & Authorization
 
-The application uses JWT-based authentication to secure users and
-protected API routes.
+The application uses JWT-based authentication to secure users and protected API routes.
 
 🔑 Authentication Flow
 👤 User
@@ -128,24 +127,23 @@ Code	Status	Usage	Example
 502	🌐 Bad Gateway	Invalid response from another server	API gateway error
 503	🛠️ Service Unavailable	Server temporarily unavailable	Maintenance mode
 📂 Project Structure
-E-Commerce-MERN/
-│
-├── 📁 frontend/
-│   ├── 📁 src/
-│   ├── 📁 public/
-│   └── 📄 package.json
+E-Commerce/
 │
 ├── 📁 backend/
-│   ├── 📁 controllers/
-│   ├── 📁 models/
-│   ├── 📁 routes/
-│   ├── 📁 middleware/
-│   ├── 📁 config/
-│   ├── 📁 utils/
-│   ├── 📄 server.js
-│   └── 📄 package.json
+│
+├── 📁 frontend/
+│
+├── 📁 screenshots/
+│   ├── 🖼️ admin.png
+│   ├── 🖼️ carts.png
+│   ├── 🖼️ home.png
+│   ├── 🖼️ login.png
+│   ├── 🖼️ product.png
+│   └── 🖼️ shopping.png
 │
 ├── 📄 .gitignore
+├── 📄 package-lock.json
+├── 📄 package.json
 └── 📄 README.md
 ⚙️ Installation & Setup
 1️⃣ Clone the Repository
@@ -178,6 +176,7 @@ Make sure .env is included in .gitignore.
 
 The backend APIs can be tested using Postman.
 
+🔄 API Workflow
 📝 Register
    ↓
 🔐 Login
@@ -206,41 +205,19 @@ Deployed using Render.
 
 The application uses MongoDB Atlas as the cloud database.
 
-## 📸 Screenshots
+📸 Screenshots
+🏠 Home Page
 
-### 🏠 Home Page
+🔐 Login Page
 
-![Home Page](screenshots/home.png)
+🛍️ Product Page
 
----
+🛒 Shopping Page
 
-### 🔐 Login Page
+🛒 Cart
 
-![Login Page](screenshots/login.png)
+👑 Admin Dashboard
 
----
-
-### 🛍️ Product Page
-
-![Product Page](screenshots/product.png)
-
----
-
-### 🛒 Shopping Page
-
-![Shopping Page](screenshots/shopping.png)
-
----
-
-### 🛒 Cart
-
-![Cart](screenshots/carts.png)
-
----
-
-### 👑 Admin Dashboard
-
-![Admin Dashboard](screenshots/admin.png)
 🧠 What I Learned
 ⚛️ React.js frontend development
 🟢 Node.js backend development
@@ -273,7 +250,7 @@ Vardhan Vendi
 🚀 Java | MERN Stack | Python | Machine Learning
 
 🔗 Connect With Me
-🐙 GitHub:(https://github.com/Vardhan-vendi)
+🐙 GitHub: https://github.com/Vardhan-vendi
 
 
 ⭐ If you found this project useful, consider giving it a star!
