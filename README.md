@@ -2,6 +2,8 @@
 
 A full-stack E-Commerce web application built using the MERN stack.
 
+---
+
 ## 🌐 Live Demo
 
 - 🖥️ **Frontend:** https://mvstore-beta.vercel.app/
@@ -75,11 +77,17 @@ A full-stack E-Commerce web application built using the MERN stack.
                       │
                       ▼
                ☁️ MongoDB Atlas
-🔐 Authentication & Authorization
+```
+
+---
+
+## 🔐 Authentication & Authorization
 
 The application uses JWT-based authentication to secure users and protected API routes.
 
-🔑 Authentication Flow
+### 🔑 Authentication Flow
+
+```text
 👤 User
    ↓
 📝 Register / Login
@@ -91,7 +99,11 @@ The application uses JWT-based authentication to secure users and protected API 
 💻 Client
    ↓
 🔐 Protected API Requests
-🛡️ Role-Based Authorization
+```
+
+### 🛡️ Role-Based Authorization
+
+```text
 👤 Normal User
    ├── 🛍️ Browse Products
    ├── 🛒 Manage Cart
@@ -101,32 +113,46 @@ The application uses JWT-based authentication to secure users and protected API 
    ├── 📦 Manage Products
    ├── 🧾 Manage Orders
    └── 🔐 Access Admin Routes
-📡 REST API
+```
+
+---
+
+## 📡 REST API
 
 The backend provides RESTful API endpoints for:
 
-🔐 Authentication
-👤 Users
-📦 Products
-🛒 Cart
-🧾 Orders
-👑 Admin operations
-📊 HTTP Status Codes
-Code	Status	Usage	Example
-200	✅ OK	Request successful	User data fetched successfully
-201	🎉 Created	New resource created	User registration successful
-204	✅ No Content	Success with no response data	User deleted successfully
-400	❌ Bad Request	Invalid client request	Missing required fields
-401	🔐 Unauthorized	User not authenticated	No JWT token provided
-403	🚫 Forbidden	User authenticated but not allowed	Normal user accessing admin route
-404	🔎 Not Found	Resource doesn't exist	User ID not found
-409	⚠️ Conflict	Duplicate resource exists	Email already registered
-422	❌ Unprocessable Entity	Validation failed	Invalid email format
-429	⏳ Too Many Requests	Rate limit exceeded	Too many login attempts
-500	🔥 Internal Server Error	Server-side error	Database connection failed
-502	🌐 Bad Gateway	Invalid response from another server	API gateway error
-503	🛠️ Service Unavailable	Server temporarily unavailable	Maintenance mode
-📂 Project Structure
+- 🔐 Authentication
+- 👤 Users
+- 📦 Products
+- 🛒 Cart
+- 🧾 Orders
+- 👑 Admin operations
+
+---
+
+## 📊 HTTP Status Codes
+
+| Code | Status | Usage | Example |
+|---|---|---|---|
+| `200` | ✅ OK | Request successful | User data fetched successfully |
+| `201` | 🎉 Created | New resource created | User registration successful |
+| `204` | ✅ No Content | Success with no response data | User deleted successfully |
+| `400` | ❌ Bad Request | Invalid client request | Missing required fields |
+| `401` | 🔐 Unauthorized | User not authenticated | No JWT token provided |
+| `403` | 🚫 Forbidden | User authenticated but not allowed | Normal user accessing admin route |
+| `404` | 🔎 Not Found | Resource doesn't exist | User ID not found |
+| `409` | ⚠️ Conflict | Duplicate resource exists | Email already registered |
+| `422` | ❌ Unprocessable Entity | Validation failed | Invalid email format |
+| `429` | ⏳ Too Many Requests | Rate limit exceeded | Too many login attempts |
+| `500` | 🔥 Internal Server Error | Server-side error | Database connection failed |
+| `502` | 🌐 Bad Gateway | Invalid response from another server | API gateway error |
+| `503` | 🛠️ Service Unavailable | Server temporarily unavailable | Maintenance mode |
+
+---
+
+## 📂 Project Structure
+
+```text
 E-Commerce/
 │
 ├── 📁 backend/
@@ -145,38 +171,62 @@ E-Commerce/
 ├── 📄 package-lock.json
 ├── 📄 package.json
 └── 📄 README.md
-⚙️ Installation & Setup
-1️⃣ Clone the Repository
-git clone YOUR_GITHUB_REPOSITORY_URL
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/Vardhan-vendi/E-commerce-MERN
 cd YOUR_PROJECT_FOLDER
-2️⃣ Frontend Setup
+```
+
+### 2️⃣ Frontend Setup
+
+```bash
 cd frontend
 npm install
 npm run dev
-3️⃣ Backend Setup
+```
+
+### 3️⃣ Backend Setup
 
 Open another terminal:
 
+```bash
 cd backend
 npm install
 npm run dev
-🔑 Environment Variables
+```
 
-Create a .env file inside the backend directory.
+---
 
+## 🔑 Environment Variables
+
+Create a `.env` file inside the `backend` directory.
+
+```env
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+```
 
-⚠️ Never commit your .env file to GitHub.
+⚠️ **Never commit your `.env` file to GitHub.**
 
-Make sure .env is included in .gitignore.
+Make sure `.env` is included in `.gitignore`.
 
-🧪 API Testing
+---
 
-The backend APIs can be tested using Postman.
+## 🧪 API Testing
 
-🔄 API Workflow
+The backend APIs can be tested using **Postman**.
+
+### 🔄 API Workflow
+
+```text
 📝 Register
    ↓
 🔐 Login
@@ -188,69 +238,113 @@ The backend APIs can be tested using Postman.
 🛒 Perform Operations
    ↓
 🧾 Manage Orders
-🚀 Deployment
-🎨 Frontend
+```
 
-Deployed using Vercel.
+---
+
+## 🚀 Deployment
+
+### 🎨 Frontend
+
+Deployed using **Vercel**.
 
 🔗 https://mvstore-beta.vercel.app/
 
-⚙️ Backend
+### ⚙️ Backend
 
-Deployed using Render.
+Deployed using **Render**.
 
 🔗 https://e-commerce-mern-0lq5.onrender.com/
 
-🗄️ Database
+### 🗄️ Database
 
-The application uses MongoDB Atlas as the cloud database.
+The application uses **MongoDB Atlas** as the cloud database.
 
-📸 Screenshots
-🏠 Home Page
+---
 
-🔐 Login Page
+## 📸 Screenshots
 
-🛍️ Product Page
+### 🏠 Home Page
 
-🛒 Shopping Page
+![Home Page](screenshots/home.png)
 
-🛒 Cart
+---
 
-👑 Admin Dashboard
+### 🔐 Login Page
 
-🧠 What I Learned
-⚛️ React.js frontend development
-🟢 Node.js backend development
-🚂 Express.js
-🔗 REST API development
-🍃 MongoDB
-🔐 JWT authentication
-🛡️ Role-based authorization
-📡 API integration
-🧪 API testing with Postman
-🐛 Debugging and root-cause analysis
-🌐 Full-stack application development
-🚀 Application deployment
-🎯 Future Improvements
-💳 Payment gateway integration
-🔍 Advanced product search
-🎯 Product filtering and sorting
-⭐ Product reviews and ratings
-❤️ Wishlist functionality
-📊 Advanced admin dashboard
-📧 Email notifications
-📱 Further mobile optimization
-👨‍💻 Author
-Vardhan Vendi
+![Login Page](screenshots/login.png)
 
-🎓 MCA Candidate
+---
 
-💻 Aspiring Software Developer
+### 🛍️ Product Page
 
-🚀 Java | MERN Stack | Python | Machine Learning
+![Product Page](screenshots/product.png)
 
-🔗 Connect With Me
-🐙 GitHub: https://github.com/Vardhan-vendi
+---
+
+### 🛒 Shopping Page
+
+![Shopping Page](screenshots/shopping.png)
+
+---
+
+### 🛒 Cart
+
+![Cart](screenshots/carts.png)
+
+---
+
+### 👑 Admin Dashboard
+
+![Admin Dashboard](screenshots/admin.png)
+
+---
+
+## 🧠 What I Learned
+
+- ⚛️ React.js frontend development
+- 🟢 Node.js backend development
+- 🚂 Express.js
+- 🔗 REST API development
+- 🍃 MongoDB
+- 🔐 JWT authentication
+- 🛡️ Role-based authorization
+- 📡 API integration
+- 🧪 API testing with Postman
+- 🐛 Debugging and root-cause analysis
+- 🌐 Full-stack application development
+- 🚀 Application deployment
+
+---
+
+## 🎯 Future Improvements
+
+- 💳 Payment gateway integration
+- 🔍 Advanced product search
+- 🎯 Product filtering and sorting
+- ⭐ Product reviews and ratings
+- ❤️ Wishlist functionality
+- 📊 Advanced admin dashboard
+- 📧 Email notifications
+- 📱 Further mobile optimization
+
+---
+
+## 👨‍💻 Author
+
+### Vardhan Vendi
+
+🎓 **MCA Candidate**
+
+💻 **Aspiring Software Developer**
+
+🚀 **Java | MERN Stack | Python | Machine Learning**
+
+### 🔗 Connect With Me
+
+- 🐙 **GitHub:** https://github.com/Vardhan-vendi
 
 
-⭐ If you found this project useful, consider giving it a star!
+---
+
+⭐ **If you found this project useful, consider giving it a star!**
